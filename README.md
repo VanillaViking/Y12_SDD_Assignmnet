@@ -1,2 +1,8 @@
 # Y12_SDD_Assignmnet
-our year 12 assignment propgram thingy vary cool.
+
+4 different programs by 4 different people, united by a launcher.
+
+# Snakes and Ladders
+
+
+
