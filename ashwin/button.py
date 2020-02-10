@@ -54,7 +54,11 @@ class button():
         else:
            if self.colour[3] > 100: #using 100 because self.real_col did not work
                self.colour[3] -= 10 
-
+    else:
+        if self.isOver(pygame.mouse.get_pos()):
+            self.colour = self.change_col 
+        else:
+            self.colour = self.real_col
 
   def isOver(self, mouse_pos):
     if self.rect.collidepoint(mouse_pos[0], mouse_pos[1]):
