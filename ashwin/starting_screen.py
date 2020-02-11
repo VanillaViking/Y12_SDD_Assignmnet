@@ -22,24 +22,25 @@ class starting_screen():
 
         self.display.fill((255,255,255))
 
-    def update_btns(self, btn):
+    def update_btns(self):
         while not self.cont_button.pressed and not self.exit_btn.pressed:
-            btn.draw(self.display)
+            self.exit_btn.draw(self.display)
+            self.cont_button.draw(self.display)
             for event in pygame.event.get():
-                btn.update(event)
-            pygame.display.update(btn.rect)
+                self.exit_btn.update(event)
+                self.cont_button.update(event)
+            pygame.display.update([self.exit_btn.rect, self.cont_button.rect])
 
     def draw(self):
         #displaying the heading
         self.display.blit(self.heading, ((self.display.get_width() / 2) - (self.heading.get_width() / 2),(self.display.get_height()/4) - (self.heading.get_height() / 2)))
         pygame.display.update()
+
         #multithreading the buttons
 
-        exit_handler = threading.Thread(target=self.update_btns, args=(self.exit_btn,))
-        exit_handler.start()
+        btn_handler = threading.Thread(target=self.update_btns)
+        btn_handler.start()
 
-        cont_handler = threading.Thread(target=self.update_btns, args=(self.cont_button,))
-        cont_handler.start()
             
           
 
