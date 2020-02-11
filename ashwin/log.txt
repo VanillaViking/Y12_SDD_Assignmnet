@@ -6,3 +6,10 @@ still unsure about the structure of my game.
 Feb 10
 I decided to have a main script which calls different screen scripts. All of the game logic will be in the main script, while the gui/visuals are taken care of by the screen programs.
 finished up a basic starting screen
+
+Feb 11
+fixed an issue where button would sometimes not click
+added player class which contains the logic of the snakes and ladders.
+
+
+
