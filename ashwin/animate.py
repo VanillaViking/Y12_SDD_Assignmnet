@@ -25,7 +25,6 @@ def animate(start, end, func, args, frames, slep=0):
             for c,i in enumerate(start):
                 #start[c] = i + (sign[c] * inc[c])
                 start[c] = i + inc[c]
-                print(start)
             
             func(*args, start)
             time.sleep(slep)
