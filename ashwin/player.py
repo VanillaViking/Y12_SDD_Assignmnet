@@ -3,7 +3,7 @@ import random
 class player():
     def __init__(self, color):
         self.square = 1
-        self.colour = color
+        self.color = color
 
     def roll(self):
         self.square += random.randint(1,6)
