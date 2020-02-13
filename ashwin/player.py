@@ -19,12 +19,14 @@ class player():
         sign = 1
 
         for num in range(1,101):
-            if num % 10 == 0:
-               pos[1] =  pos[1] - (int(95 * y_ratio))
-               sign *= -1
             
             self.number_coords.append((pos[0],pos[1]))
-            pos[0] = pos[0] + (sign * int(128 * x_ratio))
+
+            if num % 10 == 0:
+               pos[1] =  pos[1] - (int(97 * y_ratio))
+               sign *= -1
+            else:
+                pos[0] = pos[0] + (sign * int(128 * x_ratio))
 
 
     def roll(self):
