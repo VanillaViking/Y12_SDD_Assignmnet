@@ -11,11 +11,10 @@ def run(DISPLAY):
 
     color_choose = choose_color.choose_screen(DISPLAY)
     col = color_choose.draw()
+    plyrs = []
+    plyrs.append(player.player(DISPLAY, col))
 
-    sp = player.player(col)
-    print(sp.color)
-
-    lol = board_screen.board_screen(DISPLAY)
+    lol = board_screen.board_screen(DISPLAY, plyrs)
     lol.draw()
 
 

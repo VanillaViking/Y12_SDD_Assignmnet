@@ -9,7 +9,7 @@ class choose_screen():
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
 
-        self.heading = self.font.render("Choose a marker color", True, (0,0,0)) 
+        self.heading = self.font.render("Choose a pawn color", True, (0,0,0)) 
 
         #exit button
         self.exit_btn = button((230,230,230),(180,180,180), DISPLAY.get_width() - 60, 10, 50, 50, "X")

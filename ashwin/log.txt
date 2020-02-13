@@ -11,5 +11,7 @@ Feb 11
 fixed an issue where button would sometimes not click
 added player class which contains the logic of the snakes and ladders.
 
-
+Feb 12
+added a color choose screen, where the player would select the color of their pawn.
+I might put the code for the pawn in the player class, since it doesnt really serve many other purposes.
 
