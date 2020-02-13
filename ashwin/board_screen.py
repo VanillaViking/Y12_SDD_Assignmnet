@@ -6,9 +6,11 @@ import time
 
 class board_screen():
     def __init__(self, DISPLAY, players):
+        self.surfaces = []
         self.player_turn = 0
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
+        self.sfont = pygame.font.SysFont('Arial', 30)
         self.players = players
 
         self.update_lock = threading.Lock()
@@ -27,6 +29,7 @@ class board_screen():
        
     def update_btns(self, btn_event):
         while not self.exit_btn.pressed: 
+            self.display.fill((255,255,255))
             
             self.display.blit(self.bord, (int(50 * self.display.get_width()/1920),int(50 * self.display.get_height()/1080)))
             
@@ -35,6 +38,9 @@ class board_screen():
             for event in pygame.event.get():
                 self.rand_btn.update(event)
                 self.exit_btn.update(event)
+            for surf in self.surfaces:
+                self.display.blit(surf[0], (surf[1],surf[2]))
+
             for n in self.players:
                 n.draw()
             #if not self.update_lock.locked():
@@ -79,23 +85,34 @@ class board_screen():
                 quit()
 
             elif self.rand_btn.pressed:
-                self.players[self.player_turn].roll()
-                self.move_player()
-                self.player_turn += 1
+                if not self.players[self.player_turn].ai:
+                    roll = self.players[self.player_turn].roll()
+                    self.say("You rolled " + str(roll), 0.7)
+                    self.move_player()
+
+                    self.player_turn += 1
                 self.rand_btn.pressed = False
 
                 if self.player_turn == len(self.players):
                     self.player_turn = 0
                 
-                wait_for_press.clear()
+                wait_for_press.clear() #resetting the event
+            
+            if self.players[self.player_turn].ai:
+                self.check_ai(self.players[self.player_turn])
+
 
     def move_player(self):
         mover = self.players[self.player_turn]
         coords = mover.number_coords[mover.square]
         print(mover.square, coords)
         temp = [mover.pos[0],mover.pos[1]]
-        self.update_lock.acquire()
         animate(temp, coords, self.anim_move, [mover], 60, 0.01)
+        time.sleep(0.2)
+        if mover.check_sl() != 'ok':
+            temp = [mover.pos[0],mover.pos[1]]
+            print(mover.square)
+            animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
 
     def anim_move(self, mover, start):
         mover.pos = [int(start[0]),int(start[1])]
@@ -105,6 +122,20 @@ class board_screen():
         #mover.draw()
         #pygame.display.update()
 
-   
+    def check_ai(self, player):
+        ai_roll = player.roll() 
+
+        self.say(("AI rolled " + str(ai_roll)), 0.6) 
+        
+        self.move_player()
+        self.player_turn += 1
+        if self.player_turn == len(self.players):
+            self.player_turn = 0
+
+    def say(self, text, tim):
+        self.surfaces = []
+        thing = self.sfont.render(text, True, (0,0,0))
+        self.surfaces.append([thing, (self.display.get_width()*4/5) - thing.get_width()/2, (self.display.get_height()/2) - 110])
+        time.sleep(tim)
    
 
