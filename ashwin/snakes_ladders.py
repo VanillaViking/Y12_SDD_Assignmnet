@@ -8,6 +8,7 @@ def run(DISPLAY):
 
     start_screen = starting_screen.starting_screen(DISPLAY)
     choice = start_screen.draw()
+    print(choice)
 
     if choice == 'sp':
         color_choose = choose_color.choose_screen(DISPLAY)

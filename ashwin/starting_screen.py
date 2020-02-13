@@ -3,32 +3,33 @@ import threading
 from button import *
 from animate import animate
 import time
+import bg
 
 class starting_screen():
     def __init__(self, DISPLAY):
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
 
+        self.background = bg.scrolling_bg(DISPLAY, (209,163,12),["ashwin/ladder.png","ashwin/snek.png"], 20)
+
         #weclome text
         self.welcome = self.font.render("Welcome", True, (255,255,255))
 
         #exit button
-        self.exit_btn = button((230,230,230),(180,180,180), DISPLAY.get_width() - 60, 10, 50, 50, "X")
-        self.exit_btn.anim = False
+        self.exit_btn = button([230,230,230,100],[180,180,180,190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
 
         #heading
         self.heading = self.font.render("Snakes & Ladders", True, (0,0,0))
         
         #singleplayer button
-        self.sp_btn = button((230,230,230), (180,180,180), (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) - 105, 200,100, "Singleplayer")
-        self.sp_btn.anim = False
+        self.sp_btn = button([230,230,230,100], [180,180,180,190], (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) - 105, 200,100, "Singleplayer")
 
-        self.mp_btn = button((230,230,230), (180,180,180), (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) +5, 200,100, "Multiplayer")
-        self.mp_btn.anim = False
+        self.mp_btn = button([230,230,230,100], [180,180,180,190], (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) +5, 200,100, "Multiplayer")
 
 
     def update_btns(self, btn_event):
         while not self.sp_btn.pressed and not self.exit_btn.pressed and not self.mp_btn.pressed:
+            self.background.draw()
             self.exit_btn.draw(self.display)
             self.sp_btn.draw(self.display)
             self.mp_btn.draw(self.display)
@@ -36,7 +37,8 @@ class starting_screen():
                 self.exit_btn.update(event)
                 self.sp_btn.update(event)
                 self.mp_btn.update(event)
-            pygame.display.update([self.exit_btn.rect, self.sp_btn.rect, self.mp_btn.rect])
+            #pygame.display.update([self.exit_btn.rect, self.sp_btn.rect, self.mp_btn.rect])
+            pygame.display.update()
         btn_event.set()
 
     def draw(self):
@@ -62,8 +64,11 @@ class starting_screen():
         btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
         btn_handler.start()
 
+        self.background.anim_start()
+
         wait_for_press.wait() #waiting for a button to be clicked
 
+        self.background.kill()
         if self.exit_btn.pressed:
             pygame.QUIT
             quit()

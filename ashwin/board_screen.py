@@ -27,57 +27,51 @@ class board_screen():
         self.exit_btn = button((230,230,230),(180,180,180), DISPLAY.get_width() - 60, 10, 50, 50, "X")
         self.exit_btn.anim = False
        
-    def update_btns(self, btn_event):
-        while not self.exit_btn.pressed: 
-            self.display.fill((255,255,255))
-            
+    def update_screens(self, btn_event):
+        while True:
+            self.display.fill((255,255,255)) #bg dlet later
+
+            #Game Board
             self.display.blit(self.bord, (int(50 * self.display.get_width()/1920),int(50 * self.display.get_height()/1080)))
-            
+           
+            #Drawing Buttons
             self.exit_btn.draw(self.display)
             self.rand_btn.draw(self.display)
+
+            #Updating Buttons
             for event in pygame.event.get():
                 self.rand_btn.update(event)
                 self.exit_btn.update(event)
+
+            #Drawing Surfaces
             for surf in self.surfaces:
                 self.display.blit(surf[0], (surf[1],surf[2]))
 
+            #Drawing Player Pawns
             for n in self.players:
                 n.draw()
-            #if not self.update_lock.locked():
-                #pygame.display.update([self.exit_btn.rect, self.rand_btn.rect])
+
             pygame.display.update()
-            
+           
+            #Button press checks
             if self.rand_btn.pressed:
                 btn_event.set()
-        btn_event.set()
 
-    def update_board(self):
-        while not self.exit_btn.pressed:
-            self.display.blit(self.bord, (int(50 * self.display.get_width()/1920),int(50 * self.display.get_height()/1080)))
-
-            for n in self.players:
-                n.draw()
+            elif self.exit_btn.pressed:
+                btn_event.set()
+                break
 
 
     def draw(self):
-        self.display.fill((255,255,255))
-        self.display.blit(self.bord, (int(50 * self.display.get_width()/1920),int(50 * self.display.get_height()/1080)))
-        for each in self.players:
-            each.draw()
-        
-        pygame.display.update()
-               #multithreading the buttons
-        wait_for_press = threading.Event()
 
-        btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
-        btn_handler.start()
+        wait_for_press = threading.Event() 
 
-        board_handler = threading.Thread(target=self.update_board)
-        #board_handler.run()
+        #screen is updated on separate thread 
+        screen_handler = threading.Thread(target=self.update_screens, args=(wait_for_press,))
+        screen_handler.start()
+
 
         while True:
-            if self.update_lock.locked():
-                self.update_lock.release()
             wait_for_press.wait() #waiting for a button to be clicked
 
             if self.exit_btn.pressed:
@@ -104,10 +98,9 @@ class board_screen():
 
     def move_player(self):
         mover = self.players[self.player_turn]
-        coords = mover.number_coords[mover.square]
-        print(mover.square, coords)
+
         temp = [mover.pos[0],mover.pos[1]]
-        animate(temp, coords, self.anim_move, [mover], 60, 0.01)
+        animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
         time.sleep(0.2)
         if mover.check_sl() != 'ok':
             temp = [mover.pos[0],mover.pos[1]]
@@ -116,11 +109,6 @@ class board_screen():
 
     def anim_move(self, mover, start):
         mover.pos = [int(start[0]),int(start[1])]
-
-        #self.display.blit(self.bord, (int(50 * self.display.get_width()/1920),int(50 * self.display.get_height()/1080)))
-
-        #mover.draw()
-        #pygame.display.update()
 
     def check_ai(self, player):
         ai_roll = player.roll() 
