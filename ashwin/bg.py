@@ -26,15 +26,14 @@ class scrolling_bg():
 
 
 
-    def obj_update(self, obj_list, speed):
-        while not self.stop:
-            for c,n in enumerate(obj_list):
-                obj_list[c][1][1] -= speed
-            time.sleep(0.02)
+    def obj_update(self):
+            for c,n in enumerate(self.objects_a):
+                self.objects_a[c][1][1] -= 1
 
     def anim_start(self):
-        thr_a = threading.Thread(target=self.obj_update, args=(self.objects_a, 1))
-        thr_a.run()
+        thr_a = threading.Thread(target=self.obj_update)
+        thr_a.setDaemon(True)
+        thr_a.start()
 
 
     def kill(self):

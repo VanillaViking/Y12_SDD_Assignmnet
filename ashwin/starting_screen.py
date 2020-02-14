@@ -33,6 +33,7 @@ class starting_screen():
             self.exit_btn.draw(self.display)
             self.sp_btn.draw(self.display)
             self.mp_btn.draw(self.display)
+            self.background.obj_update()
             for event in pygame.event.get():
                 self.exit_btn.update(event)
                 self.sp_btn.update(event)
@@ -64,7 +65,7 @@ class starting_screen():
         btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
         btn_handler.start()
 
-        self.background.anim_start()
+        #self.background.anim_start()
 
         wait_for_press.wait() #waiting for a button to be clicked
 
