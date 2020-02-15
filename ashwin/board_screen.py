@@ -3,6 +3,7 @@ import threading
 from button import *
 from animate import animate
 import time
+import bg
 
 class board_screen():
     def __init__(self, DISPLAY, players):
@@ -13,23 +14,23 @@ class board_screen():
         self.sfont = pygame.font.SysFont('Arial', 30)
         self.players = players
 
-        self.update_lock = threading.Lock()
+        self.bg = bg.scrolling_bg(DISPLAY, (0,45,16), ["ashwin/snek.png","ashwin/ladder.png"], 10, False)
+
+
         
         #board
         self.bord = pygame.image.load("ashwin/board.png")
-        self.bord = pygame.transform.scale(self.bord, (int(1300 * (self.display.get_width()/1920)),int(970 * (self.display.get_height()/1080)))).convert() #multiplying resolution by size of current display compared to a 1080p screen, done so that image can scale down for smaller displays. (please just use a 1080p screen >...<)l
+        self.bord = pygame.transform.scale(self.bord, (int(1300 * (self.display.get_width()/1920)),int(970 * (self.display.get_height()/1080)))).convert() #multiplying resolution by size of current display compared to a 1080p screen, done so that image can scale down for smaller displays. (please just use a 1080p screen >...<)
        
         #random button
-        self.rand_btn = button((230,230,230),(180,180,180), (DISPLAY.get_width() * 4/5) - 100, (DISPLAY.get_height()/2) - 50, 200, 100, "Roll")
-        self.rand_btn.anim = False
+        self.rand_btn = button([230,230,230, 100],[180,180,180,190], (DISPLAY.get_width() * 4/5) - 100, (DISPLAY.get_height()/2) - 50, 200, 100, "Roll")
 
         #exit button
-        self.exit_btn = button((230,230,230),(180,180,180), DISPLAY.get_width() - 60, 10, 50, 50, "X")
-        self.exit_btn.anim = False
+        self.exit_btn = button([230,230,230, 100],[180,180,180, 190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
        
     def update_screens(self, btn_event):
         while True:
-            self.display.fill((255,255,255)) #bg dlet later
+            self.bg.draw()
 
             #Game Board
             self.display.blit(self.bord, (int(50 * self.display.get_width()/1920),int(50 * self.display.get_height()/1080)))
@@ -69,7 +70,9 @@ class board_screen():
         #screen is updated on separate thread 
         screen_handler = threading.Thread(target=self.update_screens, args=(wait_for_press,))
         screen_handler.start()
-
+        
+        #bg is updated on separate thread
+        self.bg.anim_start()
 
         while True:
             wait_for_press.wait() #waiting for a button to be clicked

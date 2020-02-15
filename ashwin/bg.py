@@ -4,17 +4,18 @@ import random
 import time
 
 class scrolling_bg():
-    def __init__(self, DISPLAY, bg_color, image_paths, objects):
+    def __init__(self, DISPLAY, bg_color, image_paths, objects, spin=False):
         self.bg_color = bg_color
         self.images = []
         self.display = DISPLAY
         self.objects_a = [] #[image, [x,y]]
         self.stop = False
+        self.spin = spin
         
         for n in image_paths:
             self.images.append(pygame.image.load(n).convert_alpha())
         for n in range(objects):
-            self.objects_a.append([random.randint(0,1), [random.randint(50,self.display.get_width() - 50),random.randint(50, self.display.get_height() - 50)]])
+            self.objects_a.append([random.randint(0,1), [random.randint(15,self.display.get_width() - 15),random.randint(15, self.display.get_height() - 15)]])
 
     def draw(self):
         self.display.fill(self.bg_color)
@@ -23,14 +24,26 @@ class scrolling_bg():
             self.display.blit(self.images[n[0]], (n[1][0],n[1][1]))
 
 
+        if self.spin:
+            for c, img in enumerate(self.images):
+                self.images[c] = pygame.transform.rotate(img, 1)
 
 
-    def obj_update(self):
+        
+    def update(self):
+        while not self.stop:
             for c,n in enumerate(self.objects_a):
-                self.objects_a[c][1][1] -= 1
+                if n[1][1] < (0 - self.images[n[0]].get_height()): #if off screen:
+                    self.objects_a[c][1][1] = self.display.get_height() #reset height to bottom
+                    self.objects_a[c][1][0] = random.randint(15,self.display.get_width() - 15) #change x position
+                else:
+                    self.objects_a[c][1][1] -= 1 #move up scren
+            time.sleep(0.02)
+
+            #print("height",self.objects_a[0][1][1])
 
     def anim_start(self):
-        thr_a = threading.Thread(target=self.obj_update)
+        thr_a = threading.Thread(target=self.update)
         thr_a.setDaemon(True)
         thr_a.start()
 
