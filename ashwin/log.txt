@@ -24,7 +24,10 @@ Feb 13
 Feb 15
 * Scrapping scrolling background because of bugs & doesnt look that good.
 
-
+Feb 16
+* Added parallax effect bg for first two screens
+* last screen has scrolling bg that looks better
+* made a custom board. unsure about looks
 
 
 

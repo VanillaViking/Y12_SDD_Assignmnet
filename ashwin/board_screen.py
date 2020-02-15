@@ -19,8 +19,8 @@ class board_screen():
 
         
         #board
-        self.bord = pygame.image.load("ashwin/board.png")
-        self.bord = pygame.transform.scale(self.bord, (int(1300 * (self.display.get_width()/1920)),int(970 * (self.display.get_height()/1080)))).convert() #multiplying resolution by size of current display compared to a 1080p screen, done so that image can scale down for smaller displays. (please just use a 1080p screen >...<)
+        self.bord = pygame.image.load("ashwin/bored.png")
+        self.bord = pygame.transform.scale(self.bord, (int(1300 * (self.display.get_width()/1920)),int(970 * (self.display.get_height()/1080)))).convert_alpha() #multiplying resolution by size of current display compared to a 1080p screen, done so that image can scale down for smaller displays. (please just use a 1080p screen >...<)
        
         #random button
         self.rand_btn = button([230,230,230, 100],[180,180,180,190], (DISPLAY.get_width() * 4/5) - 100, (DISPLAY.get_height()/2) - 50, 200, 100, "Roll")
