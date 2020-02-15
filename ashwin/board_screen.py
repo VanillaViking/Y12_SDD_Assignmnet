@@ -125,7 +125,7 @@ class board_screen():
 
     def say(self, text, tim):
         self.surfaces = []
-        thing = self.sfont.render(text, True, (0,0,0))
+        thing = self.sfont.render(text, True, (255,255,255))
         self.surfaces.append([thing, (self.display.get_width()*4/5) - thing.get_width()/2, (self.display.get_height()/2) - 110])
         time.sleep(tim)
    
