@@ -6,20 +6,25 @@ import time
 import bg
 
 class starting_screen():
-    def __init__(self, DISPLAY):
+    def __init__(self, DISPLAY, bg):
+        self.bg = bg
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
 
-        self.background = bg.scrolling_bg(DISPLAY, (209,163,12),["ashwin/ladder.png","ashwin/snek.png"], 20)
 
+        
         #weclome text
         self.welcome = self.font.render("Welcome", True, (255,255,255))
 
         #exit button
         self.exit_btn = button([230,230,230,100],[180,180,180,190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
 
+        #surface to create bg fade illusion
+        self.fade_surf = pygame.Surface((self.display.get_width(),self.display.get_height()))
+        self.fade_surf.fill((255,255,255))
+
         #heading
-        self.heading = self.font.render("Snakes & Ladders", True, (0,0,0))
+        self.heading = self.font.render("Snakes & Ladders", True, (255,255,255))
         
         #singleplayer button
         self.sp_btn = button([230,230,230,100], [180,180,180,190], (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) - 105, 200,100, "Singleplayer")
@@ -29,11 +34,14 @@ class starting_screen():
 
     def update_btns(self, btn_event):
         while not self.sp_btn.pressed and not self.exit_btn.pressed and not self.mp_btn.pressed:
-            self.background.draw()
+            self.bg.draw()
+
+            #heading
+            self.display.blit(self.heading, ((self.display.get_width() / 2) - (self.heading.get_width() / 2),(self.display.get_height()/4) - (self.heading.get_height() / 2)))
+
             self.exit_btn.draw(self.display)
             self.sp_btn.draw(self.display)
             self.mp_btn.draw(self.display)
-            self.background.obj_update()
             for event in pygame.event.get():
                 self.exit_btn.update(event)
                 self.sp_btn.update(event)
@@ -53,11 +61,9 @@ class starting_screen():
 
 
         #animating and displaying the heading
-        animate([255,255,255], (0,0,0), self.anim_heading, [], 20, 0.02)
+        animate([255], [0], self.anim_heading, [], 20, 0.02)
 
         time.sleep(0.4)
-        self.display.blit(self.heading, ((self.display.get_width() / 2) - (self.heading.get_width() / 2),(self.display.get_height()/4) - (self.heading.get_height() / 2)))
-        pygame.display.update()
 
         #multithreading the buttons
         wait_for_press = threading.Event()
@@ -69,7 +75,6 @@ class starting_screen():
 
         wait_for_press.wait() #waiting for a button to be clicked
 
-        self.background.kill()
         if self.exit_btn.pressed:
             pygame.QUIT
             quit()
@@ -79,7 +84,10 @@ class starting_screen():
             return 'mp'
 
     def anim_heading(self, start):
-        self.heading = self.font.render("Snakes & Ladders", True, (start[0],start[1],start[2]))
+        print(start[0])
+        self.fade_surf.set_alpha(int(start[0]))
+        self.bg.draw()
+        self.display.blit(self.fade_surf, (0,0))
 
         self.display.blit(self.heading, ((self.display.get_width() / 2) - (self.heading.get_width() / 2),(self.display.get_height()/4) - (self.heading.get_height() / 2)))
         pygame.display.update()
@@ -95,4 +103,6 @@ class starting_screen():
 
         self.display.blit(self.welcome, ((self.display.get_width() / 2) - (self.welcome.get_width() / 2),(self.display.get_height()/2) - (self.welcome.get_height() / 2)))
         pygame.display.update()
+
+        
 

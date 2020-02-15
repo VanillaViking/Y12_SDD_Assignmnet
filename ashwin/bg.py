@@ -1,7 +1,6 @@
 import pygame
 import threading
 import random
-import animate
 import time
 
 class scrolling_bg():
@@ -41,7 +40,29 @@ class scrolling_bg():
         print("kil")
             
 
+class parallax_bg():
+    def __init__(self, DISPLAY, image_path):
+        self.display = DISPLAY
+        self.ratio = 1.02 #scales the background 1.2 times the display for parallax purposes
+
+ 
+        self.image = pygame.transform.scale(pygame.image.load(image_path), (int(DISPLAY.get_width() * self.ratio), int(DISPLAY.get_height() * self.ratio))).convert_alpha()
+ 
+    
+    def draw(self):
+        '''In order to acheive parallax, the bg needs to move slightly in the opposite direction of the mouse. this can be done by firstly scaling up the background slightly bigger than the screen, so that we have room to move. Secondly, we can divide the mouse position by the same amount that we multiplied the bg. This ensures that the bg only moves very slightly. Lastly, we multiply the mouse position by -1 so that the bg moves in the opposite direction'''
+        self.display.blit(self.image, (int(pygame.mouse.get_pos()[0] * (1-self.ratio)),int(pygame.mouse.get_pos()[1] * (1-self.ratio))))
+
+
+
+
         
+
+
+
+
+
+
 
 
 

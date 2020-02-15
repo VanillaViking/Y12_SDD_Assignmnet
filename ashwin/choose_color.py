@@ -5,15 +5,15 @@ from button import *
 from animate import animate
 
 class choose_screen():
-    def __init__(self, DISPLAY):
+    def __init__(self, DISPLAY, bg):
+        self.background = bg
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
 
-        self.heading = self.font.render("Choose a pawn color", True, (0,0,0)) 
+        self.heading = self.font.render("Choose a pawn color", True, (255,255,255)) 
 
         #exit button
-        self.exit_btn = button((230,230,230),(180,180,180), DISPLAY.get_width() - 60, 10, 50, 50, "X")
-        self.exit_btn.anim = False
+        self.exit_btn = button([230,230,230, 100],[180,180,180, 190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
 
         #red_btn        
         self.red_btn = button((255,0,0),(180,0,0), (DISPLAY.get_width()/5) - 100, (DISPLAY.get_height()/2) -50, 200, 100, "")
@@ -33,6 +33,12 @@ class choose_screen():
 
     def update_btns(self, btn_event):
         while True:
+            self.background.draw()
+
+            #heading
+            self.display.blit(self.heading, ((self.display.get_width()/2) - (self.heading.get_width() / 2),(self.display.get_height()/4 - (self.heading.get_height()/2)))) 
+
+
             self.exit_btn.draw(self.display)
             self.red_btn.draw(self.display)
             self.purple_btn.draw(self.display)
@@ -45,20 +51,16 @@ class choose_screen():
                 self.green_btn.update(event)
                 self.purple_btn.update(event)
 
-            pygame.display.update([self.exit_btn.rect, self.red_btn.rect, self.blue_btn.rect, self.green_btn.rect, self.purple_btn.rect])
+            #pygame.display.update([self.exit_btn.rect, self.red_btn.rect, self.blue_btn.rect, self.green_btn.rect, self.purple_btn.rect])
+            pygame.display.update()
 
             if self.exit_btn.pressed or self.red_btn.pressed or self.blue_btn.pressed or self.green_btn.pressed or self.purple_btn.pressed:
                 btn_event.set()
                 break
 
     def draw(self):
-        self.display.fill((255,255,255))
         
-        #display heading
-        self.display.blit(self.heading, ((self.display.get_width()/2) - (self.heading.get_width() / 2),(self.display.get_height()/4 - (self.heading.get_height()/2)))) 
-        pygame.display.update()
-        
-        #mutlithreading the buttons
+        #mutlithreading
         wait_for_press = threading.Event()
 
         btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))

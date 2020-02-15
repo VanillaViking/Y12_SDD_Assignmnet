@@ -1,17 +1,30 @@
 Feb 08
-initialized github repository
-created base structure for launcher
-still unsure about the structure of my game.
+* initialized github repository
+* created base structure for launcher
+* still unsure about the structure of my game.
 
 Feb 10
-I decided to have a main script which calls different screen scripts. All of the game logic will be in the main script, while the gui/visuals are taken care of by the screen programs.
+* I decided to have a main script which calls different screen scripts. All of the game logic will be in the main script, while the gui/visuals are taken care of by the screen programs.
 finished up a basic starting screen
 
 Feb 11
-fixed an issue where button would sometimes not click
+* fixed an issue where button would sometimes not click
 added player class which contains the logic of the snakes and ladders.
 
 Feb 12
-added a color choose screen, where the player would select the color of their pawn.
-I might put the code for the pawn in the player class, since it doesnt really serve many other purposes.
+* added a color choose screen, where the player would select the color of their pawn.
+* I might put the code for the pawn in the player class, since it doesnt really serve many other purposes.
+
+Feb 13
+* created an animate function, which takes two list of values and increments/decrements the values until the lists match at a given speed. Probably the most useful thing i made
+* finished alpha version of the game. now starting work on scrolling bg
+
+* scrolling background looks ugly. might do parallax instead.
+
+Feb 15
+* Scrapping scrolling background because of bugs & doesnt look that good.
+
+
+
+
 
