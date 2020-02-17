@@ -69,6 +69,7 @@ class board_screen():
 
         #screen is updated on separate thread 
         screen_handler = threading.Thread(target=self.update_screens, args=(wait_for_press,))
+        screen_handler.setDaemon(True)
         screen_handler.start()
         
         #bg is updated on separate thread
@@ -84,8 +85,10 @@ class board_screen():
             elif self.rand_btn.pressed:
                 if not self.players[self.player_turn].ai:
                     roll = self.players[self.player_turn].roll()
-                    self.say("You rolled " + str(roll), 0.7)
-                    self.move_player()
+                    self.say("You rolled " + roll, 0.7)
+                    if self.move_player() == "win":
+                        print("wan")
+                        return self.player_turn
 
                     self.player_turn += 1
                 self.rand_btn.pressed = False
@@ -105,10 +108,14 @@ class board_screen():
         temp = [mover.pos[0],mover.pos[1]]
         animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
         time.sleep(0.2)
-        if mover.check_sl() != 'ok':
+
+        status = mover.check_sl()
+        if status != 'ok':
             temp = [mover.pos[0],mover.pos[1]]
-            print(mover.square)
+            print(status)
             animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
+        if status == 'win':
+            return 'win'
 
     def anim_move(self, mover, start):
         mover.pos = [int(start[0]),int(start[1])]

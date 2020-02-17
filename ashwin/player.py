@@ -32,8 +32,10 @@ class player():
 
     def roll(self):
          self.rolled = random.randint(1,6)
+         if (self.rolled + self.square) > 100:
+             return (str(self.rolled) + ", Too high")
          self.square += self.rolled
-         return self.rolled
+         return str(self.rolled)
 
     def check_sl(self):
         
@@ -42,62 +44,63 @@ class player():
             self.square = 21
             return 'l'
 
-        if self.square == 8:
+        elif self.square == 8:
             self.square = 30
             return 'l'
 
-        if self.square == 17:
+        elif self.square == 17:
             self.square = 13
             return 's'
 
-        if self.square == 28:
+        elif self.square == 28:
             self.square = 84
             return 'l'
 
-        if self.square == 52:
+        elif self.square == 52:
             self.square = 29
             return 's'
 
-        if self.square == 57:
+        elif self.square == 57:
             self.square = 40
             return 's'
 
-        if self.square == 58:
+        elif self.square == 58:
             self.square = 77
             return 'l'
 
-        if self.square == 62:
+        elif self.square == 62:
             self.square = 22
             return 's'
 
-        if self.square == 75:
+        elif self.square == 75:
             self.square = 86
             return 'l'
 
-        if self.square == 80:
+        elif self.square == 80:
             self.square = 100 
             return 'l'
 
-        if self.square == 88:
+        elif self.square == 88:
             self.square = 18
             return 's'
 
-        if self.square == 90:
+        elif self.square == 90:
             self.square = 91
             return 'l'
 
-        if self.square == 95:
+        elif self.square == 95:
             self.square = 51
             return 's'
 
-        if self.square == 97:
+        elif self.square == 97:
             self.square = 79
             return 's'
 
-        if self.square == 100:
+        elif self.square == 100:
             return 'win'
 
-        return 'ok'
+        else:
+            return 'ok'
 
     def draw(self):
         pygame.draw.circle(self.display, self.color, self.pos, 20)
