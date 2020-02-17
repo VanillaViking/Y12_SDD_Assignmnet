@@ -9,8 +9,8 @@ import snakes_ladders
 
 pygame.init()
 
-DISPLAY = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-#DISPLAY = pygame.display.set_mode((1280,720))
+#DISPLAY = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+DISPLAY = pygame.display.set_mode((1280,720))
 
 
 #call start function here
