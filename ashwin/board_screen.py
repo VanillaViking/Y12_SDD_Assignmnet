@@ -14,6 +14,9 @@ class board_screen():
         self.sfont = pygame.font.SysFont('Arial', 30)
         self.players = players
         self.stop_draw = False
+        self.winner = None
+        self.kill = False
+
 
         self.bg = bg.scrolling_bg(DISPLAY, (0,45,16), ["ashwin/snek.png","ashwin/ladder.png"], 10, False)
 
@@ -30,7 +33,7 @@ class board_screen():
         self.exit_btn = button([230,230,230, 100],[180,180,180, 190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
        
     def update_screens(self, btn_event):
-        while True:
+        while not self.kill:
             self.bg.draw()
 
             #Game Board
@@ -53,6 +56,8 @@ class board_screen():
             if not self.stop_draw:
                 for n in self.players:
                     n.draw()
+            else:
+                self.winner.draw()
 
             pygame.display.update()
            
@@ -77,7 +82,7 @@ class board_screen():
         #bg is updated on separate thread
         self.bg.anim_start()
 
-        while True:
+        while not self.winner: #LOGIC LOOP
             wait_for_press.wait() #waiting for a button to be clicked
 
             if self.exit_btn.pressed:
@@ -85,25 +90,24 @@ class board_screen():
                 quit()
 
             elif self.rand_btn.pressed:
-                if not self.players[self.player_turn].ai:
-                    roll = self.players[self.player_turn].roll()
-                    self.say("You rolled " + roll, 0.7)
-                    if self.move_player() == "win":
-                        print("wan")
-                        self.stop_draw = True
-                        animate([20], [2000], self.players[self.player_turn].win_anim,[], 80, 0.01)
-                        return self.player_turn
+                if self.stop_draw:
+                    break
 
-                    self.player_turn += 1
-                self.rand_btn.pressed = False
+                roll = self.players[self.player_turn].roll()
+                self.say("You rolled " + roll, 0)
+                self.move_player()
+                self.player_turn += 1
 
-                if self.player_turn == len(self.players):
-                    self.player_turn = 0
+
+            if self.player_turn == len(self.players):
+                self.player_turn = 0
                 
                 wait_for_press.clear() #resetting the event
             
+            self.rand_btn.pressed = False
             if self.players[self.player_turn].ai:
-                self.check_ai(self.players[self.player_turn])
+                if not self.stop_draw:
+                    self.check_ai(self.players[self.player_turn])
 
 
     def move_player(self):
@@ -113,13 +117,25 @@ class board_screen():
         animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
         time.sleep(0.2)
 
-        status = mover.check_sl()
-        if status != 'ok':
+        status = mover.check_sl()  #check if mover lands on a snake/ladder
+
+        if status == 'ok':
+            return 0
+
+        elif mover.square == 100:
+            time.sleep(0.3)
+            self.winner = mover 
+            self.stop_draw = True
+            animate([20], [1800], self.players[self.player_turn].win_anim,[], 80, 0.01)
+            #time.sleep(0.5)
+            self.kill = True
+            return 'win'
+
+        else:
             temp = [mover.pos[0],mover.pos[1]]
             print(status)
             animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
-        if status == 'win':
-            return 'win'
+
 
     def anim_move(self, mover, start):
         mover.pos = [int(start[0]),int(start[1])]
@@ -127,13 +143,9 @@ class board_screen():
     def check_ai(self, player):
         ai_roll = player.roll() 
 
-        self.say(("AI rolled " + str(ai_roll)), 0.6) 
+        self.say(("AI rolled " + str(ai_roll)), 0) 
+        self.move_player() 
         
-        if self.move_player() == "win":
-            print("ai wan")
-            animate([20], [2000], player.win_anim,[], 80)
-            self.stop_draw = True
-
         self.player_turn += 1
         if self.player_turn == len(self.players):
             self.player_turn = 0
@@ -144,4 +156,3 @@ class board_screen():
         self.surfaces.append([thing, (self.display.get_width()*4/5) - thing.get_width()/2, (self.display.get_height()/2) - 110])
         time.sleep(tim)
    
-

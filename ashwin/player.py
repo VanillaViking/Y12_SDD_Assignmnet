@@ -4,10 +4,11 @@ from animate import animate
 
 
 class player():
-    def __init__(self, DISPLAY, color, ai=False):
+    def __init__(self, DISPLAY, name, color, ai=False):
+        self.name = name
         self.ai = ai
         self.display = DISPLAY
-        self.square = 99
+        self.square = 1
         self.color = color
         self.radius = 20
         self.rolled = 0

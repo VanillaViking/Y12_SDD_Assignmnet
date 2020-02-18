@@ -57,13 +57,12 @@ class starting_screen():
         pygame.display.update()
 
         time.sleep(0.7)
-        animate([0,0,0], (255,255,255), self.background_fade, [], 50)
+        animate([0,0,0], (255,255,255), self.background_fade, [], 80)
 
 
         #animating and displaying the heading
-        animate([255], [0], self.anim_heading, [], 20, 0.02)
+        animate([255], [0], self.anim_heading, [], 120)
 
-        time.sleep(0.4)
 
         #multithreading the buttons
         wait_for_press = threading.Event()
@@ -84,9 +83,14 @@ class starting_screen():
             return 'mp'
 
     def anim_heading(self, start):
-        print(start[0])
         self.fade_surf.set_alpha(int(start[0]))
+
         self.bg.draw()
+
+        self.exit_btn.draw(self.display)
+        self.sp_btn.draw(self.display)
+        self.mp_btn.draw(self.display)
+
         self.display.blit(self.fade_surf, (0,0))
 
         self.display.blit(self.heading, ((self.display.get_width() / 2) - (self.heading.get_width() / 2),(self.display.get_height()/4) - (self.heading.get_height() / 2)))
