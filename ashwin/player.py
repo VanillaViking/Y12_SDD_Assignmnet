@@ -7,8 +7,9 @@ class player():
     def __init__(self, DISPLAY, color, ai=False):
         self.ai = ai
         self.display = DISPLAY
-        self.square = 1
+        self.square = 99
         self.color = color
+        self.radius = 20
         self.rolled = 0
         x_ratio = DISPLAY.get_width()/1920 #these are used for displays other than 1080p
         y_ratio = DISPLAY.get_height()/1080
@@ -103,7 +104,7 @@ class player():
             return 'ok'
 
     def draw(self):
-        pygame.draw.circle(self.display, self.color, self.pos, 20)
+        pygame.draw.circle(self.display, self.color, self.pos,self.radius)
 
     def move(self):
         coords = self.number_coords[self.square]
@@ -115,3 +116,8 @@ class player():
         self.draw()
         #pygame.display.update((self.pos[0]-20,self.pos[1]-20,self.pos[0]+20,self.pos[1]+20))
         #pygame.display.update()
+
+    def win_anim(self, start):
+        self.radius = int(start[0])
+        self.draw()
+        

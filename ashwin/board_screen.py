@@ -13,13 +13,14 @@ class board_screen():
         self.font = pygame.font.SysFont('Arial', 50)
         self.sfont = pygame.font.SysFont('Arial', 30)
         self.players = players
+        self.stop_draw = False
 
         self.bg = bg.scrolling_bg(DISPLAY, (0,45,16), ["ashwin/snek.png","ashwin/ladder.png"], 10, False)
 
 
         
         #board
-        self.bord = pygame.image.load("ashwin/bored.png")
+        self.bord = pygame.image.load("ashwin/board.png")
         self.bord = pygame.transform.scale(self.bord, (int(1300 * (self.display.get_width()/1920)),int(970 * (self.display.get_height()/1080)))).convert_alpha() #multiplying resolution by size of current display compared to a 1080p screen, done so that image can scale down for smaller displays. (please just use a 1080p screen >...<)
        
         #random button
@@ -49,8 +50,9 @@ class board_screen():
                 self.display.blit(surf[0], (surf[1],surf[2]))
 
             #Drawing Player Pawns
-            for n in self.players:
-                n.draw()
+            if not self.stop_draw:
+                for n in self.players:
+                    n.draw()
 
             pygame.display.update()
            
@@ -88,6 +90,8 @@ class board_screen():
                     self.say("You rolled " + roll, 0.7)
                     if self.move_player() == "win":
                         print("wan")
+                        self.stop_draw = True
+                        animate([20], [2000], self.players[self.player_turn].win_anim,[], 80, 0.01)
                         return self.player_turn
 
                     self.player_turn += 1
@@ -125,7 +129,11 @@ class board_screen():
 
         self.say(("AI rolled " + str(ai_roll)), 0.6) 
         
-        self.move_player()
+        if self.move_player() == "win":
+            print("ai wan")
+            animate([20], [2000], player.win_anim,[], 80)
+            self.stop_draw = True
+
         self.player_turn += 1
         if self.player_turn == len(self.players):
             self.player_turn = 0

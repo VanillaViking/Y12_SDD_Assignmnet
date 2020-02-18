@@ -30,4 +30,5 @@ Feb 16
 * made a custom board. unsure about looks
 
 
-
+Feb 17
+* made a proper win exit condition, I have a good idea about an end animation
