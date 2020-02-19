@@ -28,5 +28,8 @@ def animate(start, end, func, args, frames, slep=0):
             
             func(*args, start)
             time.sleep(slep)
+
+        func(*args, end) #to make sure the animation ends at desired value
     anim_handler = threading.Thread(target=anim, args=(start, end, func, args, frames, slep))
     anim_handler.run()
+
