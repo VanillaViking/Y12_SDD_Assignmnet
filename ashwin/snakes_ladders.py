@@ -10,11 +10,14 @@ def run(DISPLAY):
     #parallax background
     background = bg.parallax_bg(DISPLAY, "ashwin/snek_bg.jpg")
 
+    
     start_screen = starting_screen.starting_screen(DISPLAY, background)
+
+    #start screen has choice between singleplayer/multiplayer
     choice = start_screen.draw()
     
-
-    if choice == 'sp': #singleplayer agains AI
+    
+    if choice == 'sp': #singleplayer against AI
         color_choose = choose_color.choose_screen(DISPLAY, background)
         col = color_choose.draw()
         plyrs = []
@@ -27,6 +30,10 @@ def run(DISPLAY):
 
         w_screen = win_screen.win_screen(DISPLAY, background, bored.winner)
         w_screen.draw()
+
+    elif choice == 'mp':
+        pass
+
         
 
 

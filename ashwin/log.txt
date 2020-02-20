@@ -32,3 +32,12 @@ Feb 16
 
 Feb 17
 * made a proper win exit condition, I have a good idea about an end animation
+
+Feb 19
+* finished ending animation
+* if two dots are on the same sqaure, they separate
+
+Feb 21
+* starting work on multiplayer
+
+
