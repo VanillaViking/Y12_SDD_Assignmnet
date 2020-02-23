@@ -30,7 +30,7 @@ class button():
       for n in sliced:
           self.text.append(arial.render(n, True, text_col))
     else:
-        self.text = [arial.render(text, True, text_col)]
+        self.text = [arial.render(text, True, text_col).convert_alpha()]
   def draw(self, DISPLAY):
     btn = pygame.Surface((self.rect.width,self.rect.height), pygame.SRCALPHA)
     btn.fill(self.colour)

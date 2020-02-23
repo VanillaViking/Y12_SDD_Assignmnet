@@ -12,8 +12,10 @@ class choose_screen():
 
         self.heading = self.font.render("Choose a pawn color", True, (255,255,255)) 
 
+
         #exit button
         self.exit_btn = button([230,230,230, 100],[180,180,180, 190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
+
 
         #red_btn        
         self.red_btn = button((255,0,0),(180,0,0), (DISPLAY.get_width()/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "")
@@ -44,12 +46,14 @@ class choose_screen():
             self.purple_btn.draw(self.display)
             self.green_btn.draw(self.display)
             self.blue_btn.draw(self.display)
+
             for event in pygame.event.get():
                 self.exit_btn.update(event)
                 self.red_btn.update(event)
                 self.blue_btn.update(event)
                 self.green_btn.update(event)
                 self.purple_btn.update(event)
+
 
             #pygame.display.update([self.exit_btn.rect, self.red_btn.rect, self.blue_btn.rect, self.green_btn.rect, self.purple_btn.rect])
             pygame.display.update()

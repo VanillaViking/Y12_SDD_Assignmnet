@@ -1,6 +1,7 @@
 import pygame
 import threading
 from button import *
+from text_input import *
 from animate import animate
 import time
 import bg
@@ -10,53 +11,77 @@ class details_screen():
         self.bg = bg
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
-        self.num_players = 0
+        self.sfont = pygame.font.SysFont('Arial', 30)
 
-        left_btn = button([255,255,255,100], [255,255, 255,190], (1*DISPLAY.get_width()/2) - 125, (1 * DISPLAY.get_height()/2) - 25, 50, 50, "-")
+        self.text1 = self.sfont.render("Player Names (separated by comma)", True, (200,200,200)).convert_alpha()
+        self.name = text_input(DISPLAY, (DISPLAY.get_width()/2) + 10, (DISPLAY.get_height()/2) -25, 500, 50, '', (255,255,255))
 
-        right_btn = button([255,255,255,100], [255,255, 255,190], (1*DISPLAY.get_width()/2) + 75, (1 * DISPLAY.get_height()/2) - 25, 50, 50, "+")
-
-        
-        self.disp_num = self.font.render(str(self.num_players), True, (255,255,255))
+        #input error msg
+        self.err = self.sfont.render("A maximum of 4 players is possible.", True, (255,0,0,0)).convert_alpha()
 
         #exit button
         self.exit_btn = button([230,230,230,100],[180,180,180,190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
 
         #heading
-        self.heading = self.font.render("Number of Players", True, (255,255,255))
-        
+        self.heading = self.font.render("Number of Players", True, (255,255,255)).convert_alpha()  
 
-        self.mp_btn = button([230,230,230,100], [180,180,180,190], (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) +5, 200,100, "Continue")
+        #continue button 
+        self.cont_btn = button([230,230,230,100], [180,180,180,190], (DISPLAY.get_width()/2) -100, (DISPLAY.get_height() * 3/4) +5, 200,100, "Continue")
 
 
     def update_btns(self, btn_event):
-        while not self.sp_btn.pressed and not self.exit_btn.pressed and not self.mp_btn.pressed:
-            self.bg.draw()
+        while True:
+            #drawing all elements onto screen
 
-            #heading
+            self.bg.draw()
             self.display.blit(self.heading, ((self.display.get_width() / 2) - (self.heading.get_width() / 2),(self.display.get_height()/4) - (self.heading.get_height() / 2)))
-            self.display.blit(self.disp_num, ((self.display.get_width()/2) - (self.disp_num.get_width()/2), (self.display.get_height()/2) - (self.disp_num.get_height()/2)))
+
+            self.display.blit(self.text1, ((self.display.get_width() / 2) - 10 - (self.text1.get_width()),(self.display.get_height()/2) - self.text1.get_height()/2))
+
+            self.name.draw()
 
             self.exit_btn.draw(self.display)
-            self.mp_btn.draw(self.display)
+            self.cont_btn.draw(self.display)
+
             for event in pygame.event.get():
                 self.exit_btn.update(event)
-                self.mp_btn.update(event)
-            #pygame.display.update([self.exit_btn.rect, self.sp_btn.rect, self.mp_btn.rect])
+                self.cont_btn.update(event)
+                self.name.activate(event)
+
             pygame.display.update()
-        btn_event.set()
+
+            if self.cont_btn.pressed:
+                btn_event.set()
+            elif self.exit_btn.pressed:
+                btn_event.set()
+                break
 
     def draw(self):
+        while True:
+            #multithreading the buttons
+            wait_for_press = threading.Event()
 
-        #multithreading the buttons
-        wait_for_press = threading.Event()
+            btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
+            btn_handler.setDaemon(True)
+            btn_handler.start()
 
-        btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
-        btn_handler.start()
+            wait_for_press.wait() #waiting for a button to be clicked
 
-        wait_for_press.wait() #waiting for a button to be clicked
+            if self.exit_btn.pressed:
+                pygame.QUIT
+                quit()
 
-        if self.exit_btn.pressed:
-            pygame.QUIT
-            quit()
+            elif self.cont_btn.pressed:
+                print(len(self.name.text.split(",")))
+                if len(self.name.text.split(",")) <= 4:
+                    return self.name.text.split(",")
+                else:
+                    animate([255], [0], self.err_anim, [], 120) 
 
+            wait_for_press.clear()
+            self.cont_btn.pressed = False
+            
+
+    def err_anim(self, start):
+        self.show_err = True
+        

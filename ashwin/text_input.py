@@ -12,7 +12,7 @@ class text_input():
         self.active = False
         self.colour = (100,100,100)
         self.text = text
-        self.text_surface = FONT.render(text,True, text_col)
+        self.text_surface = FONT.render(text,True, text_col).convert_alpha()
         self.text_col = text_col
         self.anim = anim 
         self.clicked = False
@@ -39,7 +39,7 @@ class text_input():
                     self.colour = (200,200,200)
                 else:
                     self.text += event.unicode
-                self.text_surface = FONT.render(self.text, True,self.text_col)
+                self.text_surface = FONT.render(self.text, True,self.text_col).convert_alpha()
 
     def draw(self): 
             

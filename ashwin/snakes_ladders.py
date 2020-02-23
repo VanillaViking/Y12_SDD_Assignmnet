@@ -5,6 +5,7 @@ import player
 import board_screen
 import bg
 import win_screen
+import details_screen
 
 def run(DISPLAY):
     #parallax background
@@ -32,7 +33,12 @@ def run(DISPLAY):
         w_screen.draw()
 
     elif choice == 'mp':
-        pass
+        player_colors = [(255,0,0),(0,255,0),(0,0,255),(255,255,0)]
+        details = details_screen.details_screen(DISPLAY, background)
+        player_names = details.draw()
+        for n in player_names:
+            pass
+        
 
         
 
