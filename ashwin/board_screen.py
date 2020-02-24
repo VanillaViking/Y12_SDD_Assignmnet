@@ -87,8 +87,8 @@ class board_screen():
         self.bg.anim_start()
 
         while not self.winner: #LOGIC LOOP
-            wait_for_press.wait() #waiting for a button to be clicked
 
+            wait_for_press.wait() #waiting for a button to be clicked
             if self.exit_btn.pressed:
                 pygame.QUIT
                 quit()
@@ -114,14 +114,12 @@ class board_screen():
                 if not self.stop_draw:
                     self.check_ai(self.players[self.player_turn])
 
-            if self.players[0].pos == self.players[1].pos: #if players are on the same square, move to make both visible
-                sign = 1
-                for n in self.players:
-                    temp = [n.pos[0],n.pos[1]]
-                    animate(temp, (temp[0],temp[1]+(sign*10)), self.anim_move, [n], 10, 0.01)
-                    sign *= -1
-        
-            print(self.players[0].pos, self.players[1].pos)
+            
+            self.check_same_square()
+
+            wait_for_press.clear()
+
+            #print(self.players[0].pos, self.players[1].pos)
 
 
     def move_player(self):
@@ -172,9 +170,18 @@ class board_screen():
     def check_same_square(self):
         for c,n in enumerate(self.players):
             if self.players[c-1].pos == n.pos:
-                pass
+                    temp = [n.pos[0],n.pos[1]]
+                    animate(temp, (temp[0],temp[1]+(10)), self.anim_move, [n], 10, 0.01)
+
+                    temp_2 = [self.players[c-1].pos[0],self.players[c-1].pos[1]]
+                    animate(temp_2, (temp_2[0],temp_2[1]-(10)), self.anim_move, [self.players[c-1]], 10, 0.01)
+
 
         if len(self.players) == 4:
             if self.players[0].pos == self.players[2].pos:
-                pass
+                    temp = [self.players[0].pos[0], self.players[0].pos[1]]
+                    animate(temp, (temp[0],temp[1]+10), self.anim_move, [self.players[0]], 10, 0.01)
+
+                    temp_2 = [self.players[2].pos[0],self.players[2].pos[1]]
+                    animate(temp_2, (temp_2[0],temp_2[1]-10), self.anim_move, [self.players[2]], 10, 0.01)
 

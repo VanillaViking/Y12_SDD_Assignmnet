@@ -40,4 +40,9 @@ Feb 19
 Feb 21
 * starting work on multiplayer
 
+Feb 23
+* multiplayer mostly functional. need to add error checks on details screen
 
+Feb 24
+* multiplayer fully finished
+* the dots move slightly if on the same square
