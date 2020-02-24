@@ -173,6 +173,8 @@ class board_screen():
         for c,n in enumerate(self.players):
             if self.players[c-1].pos == n.pos:
                 pass
+
         if len(self.players) == 4:
-            if self.players[0].pos == self.players[2].pos
+            if self.players[0].pos == self.players[2].pos:
+                pass
 
