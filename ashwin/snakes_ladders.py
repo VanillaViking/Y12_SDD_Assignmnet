@@ -33,11 +33,19 @@ def run(DISPLAY):
         w_screen.draw()
 
     elif choice == 'mp':
+        players = []
         player_colors = [(255,0,0),(0,255,0),(0,0,255),(255,255,0)]
         details = details_screen.details_screen(DISPLAY, background)
         player_names = details.draw()
-        for n in player_names:
-            pass
+        for c,n in enumerate(player_names):
+            players.append(player.player(DISPLAY, n, player_colors[c]))
+
+        bored = board_screen.board_screen(DISPLAY, players)
+        bored.draw()
+
+        w_screen = win_screen.win_screen(DISPLAY, background, bored.winner)
+        w_screen.draw()
+            
         
 
         

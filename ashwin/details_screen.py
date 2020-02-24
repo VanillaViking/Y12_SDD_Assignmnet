@@ -12,12 +12,14 @@ class details_screen():
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
         self.sfont = pygame.font.SysFont('Arial', 30)
+        self.stop = False
+        self.show_err = False
 
         self.text1 = self.sfont.render("Player Names (separated by comma)", True, (200,200,200)).convert_alpha()
         self.name = text_input(DISPLAY, (DISPLAY.get_width()/2) + 10, (DISPLAY.get_height()/2) -25, 500, 50, '', (255,255,255))
 
         #input error msg
-        self.err = self.sfont.render("A maximum of 4 players is possible.", True, (255,0,0,0)).convert_alpha()
+        self.err = self.sfont.render("only playable with 2 to 4 players", True, (255,0,0,0)).convert_alpha()
 
         #exit button
         self.exit_btn = button([230,230,230,100],[180,180,180,190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
@@ -30,7 +32,7 @@ class details_screen():
 
 
     def update_btns(self, btn_event):
-        while True:
+        while not self.stop:
             #drawing all elements onto screen
 
             self.bg.draw()
@@ -42,6 +44,9 @@ class details_screen():
 
             self.exit_btn.draw(self.display)
             self.cont_btn.draw(self.display)
+
+            if self.show_err:
+                self.display.blit(self.err, ((self.display.get_width()/2)-(self.err.get_width()/2),(self.display.get_height() * 3/5)-(self.err.get_height()/2)))
 
             for event in pygame.event.get():
                 self.exit_btn.update(event)
@@ -57,14 +62,14 @@ class details_screen():
                 break
 
     def draw(self):
+        #multithreading the buttons
+        wait_for_press = threading.Event()
+
+        btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
+        btn_handler.setDaemon(True)
+        btn_handler.start()
+
         while True:
-            #multithreading the buttons
-            wait_for_press = threading.Event()
-
-            btn_handler = threading.Thread(target=self.update_btns, args=(wait_for_press,))
-            btn_handler.setDaemon(True)
-            btn_handler.start()
-
             wait_for_press.wait() #waiting for a button to be clicked
 
             if self.exit_btn.pressed:
@@ -73,7 +78,8 @@ class details_screen():
 
             elif self.cont_btn.pressed:
                 print(len(self.name.text.split(",")))
-                if len(self.name.text.split(",")) <= 4:
+                if len(self.name.text.split(",")) <= 4 and len(self.name.text.split(",")) >= 2:
+                    self.stop = True
                     return self.name.text.split(",")
                 else:
                     animate([255], [0], self.err_anim, [], 120) 

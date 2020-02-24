@@ -16,6 +16,7 @@ class board_screen():
         self.stop_draw = False
         self.winner = None
         self.kill = False
+        self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
 
 
         self.bg = bg.scrolling_bg(DISPLAY, (0,45,16), ["ashwin/snek.png","ashwin/ladder.png"], 10, False)
@@ -47,6 +48,9 @@ class board_screen():
             for event in pygame.event.get():
                 self.rand_btn.update(event)
                 self.exit_btn.update(event)
+            
+            #Text showing player turn
+            self.display.blit(self.turn_text, ((self.display.get_width() *4/5)-(self.turn_text.get_width()/2),(self.display.get_height()/8)-(self.turn_text.get_height()/2))) 
 
             #Drawing Surfaces
             for surf in self.surfaces:
@@ -94,17 +98,18 @@ class board_screen():
                     break
 
                 roll = self.players[self.player_turn].roll()
-                self.say("You rolled " + roll, 0)
+                self.say(self.players[self.player_turn].name + " rolled " + roll, 0)
                 self.move_player()
                 self.player_turn += 1
 
 
             if self.player_turn == len(self.players):
                 self.player_turn = 0
-                
                 wait_for_press.clear() #resetting the event
             
+            self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
             self.rand_btn.pressed = False
+
             if self.players[self.player_turn].ai:
                 if not self.stop_draw:
                     self.check_ai(self.players[self.player_turn])
@@ -121,11 +126,9 @@ class board_screen():
 
     def move_player(self):
         mover = self.players[self.player_turn]
-
         temp = [mover.pos[0],mover.pos[1]]
         animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
         time.sleep(0.2)
-
         status = mover.check_sl()  #check if mover lands on a snake/ladder
 
         if status == 'ok':
@@ -151,17 +154,23 @@ class board_screen():
 
     def check_ai(self, player):
         ai_roll = player.roll() 
-
         self.say(("AI rolled " + str(ai_roll)), 0) 
         self.move_player() 
-        
         self.player_turn += 1
+
         if self.player_turn == len(self.players):
             self.player_turn = 0
+
+        self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
 
     def say(self, text, tim):
         self.surfaces = []
         thing = self.sfont.render(text, True, (255,255,255))
         self.surfaces.append([thing, (self.display.get_width()*4/5) - thing.get_width()/2, (self.display.get_height()/2) - 110])
         time.sleep(tim)
-   
+    
+    def check_same_square(self):
+        for c,n in enumerate(self.players):
+            if self.players[c-1].pos == n.pos:
+                pass
+
