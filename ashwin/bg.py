@@ -63,7 +63,7 @@ class parallax_bg():
  
     
     def draw(self):
-        '''In order to acheive parallax, the bg needs to move slightly in the opposite direction of the mouse. this can be done by firstly scaling up the background slightly bigger than the screen, so that we have room to move. Secondly, we can divide the mouse position by the same amount that we multiplied the bg. This ensures that the bg only moves very slightly. Lastly, we multiply the mouse position by -1 so that the bg moves in the opposite direction'''
+        '''In order to acheive a parallax illusion, the bg needs to move slightly in the opposite direction of the mouse. this can be done by firstly scaling up the background slightly bigger than the screen, so that we have room to move. Secondly, we can divide the mouse position by the same amount that we multiplied the bg. This ensures that the bg only moves very slightly. Lastly, we multiply the mouse position by -1 so that the bg moves in the opposite direction'''
         self.display.blit(self.image, (int(pygame.mouse.get_pos()[0] * (1-self.ratio)),int(pygame.mouse.get_pos()[1] * (1-self.ratio))))
         #print((int(pygame.mouse.get_pos()[0] * (1-self.ratio)),int(pygame.mouse.get_pos()[1] * (1-self.ratio))))
 

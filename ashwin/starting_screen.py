@@ -61,7 +61,7 @@ class starting_screen():
 
 
         #animating and displaying the heading
-        animate([255], [0], self.anim_heading, [], 120)
+        animate([255], [0], self.anim_heading, [], 80)
 
 
         #multithreading the buttons

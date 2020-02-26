@@ -16,6 +16,7 @@ class board_screen():
         self.stop_draw = False
         self.winner = None
         self.kill = False
+
         self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
 
 
@@ -96,7 +97,8 @@ class board_screen():
             elif self.rand_btn.pressed:
                 if self.stop_draw:
                     break
-
+                
+                #player roll
                 roll = self.players[self.player_turn].roll()
                 self.say(self.players[self.player_turn].name + " rolled " + roll, 0)
                 self.move_player()
@@ -106,7 +108,8 @@ class board_screen():
             if self.player_turn == len(self.players):
                 self.player_turn = 0
                 wait_for_press.clear() #resetting the event
-            
+           
+            #changing player turn
             self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
             self.rand_btn.pressed = False
 
@@ -178,7 +181,7 @@ class board_screen():
 
 
         if len(self.players) == 4:
-            if self.players[0].pos == self.players[2].pos:
+            if self.players[0].pos == self.players[2].pos: #checking this scenario since it does not get checked by the for loop above.
                     temp = [self.players[0].pos[0], self.players[0].pos[1]]
                     animate(temp, (temp[0],temp[1]+10), self.anim_move, [self.players[0]], 10, 0.01)
 

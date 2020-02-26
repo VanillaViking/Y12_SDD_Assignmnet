@@ -34,7 +34,7 @@ def run(DISPLAY):
 
     elif choice == 'mp':
         players = []
-        player_colors = [(255,0,0),(0,255,0),(0,0,255),(255,255,0)]
+        player_colors = [(255,0,0),(0,255,0),(0,0,255),(255,0,255)]
         details = details_screen.details_screen(DISPLAY, background)
         player_names = details.draw()
         for c,n in enumerate(player_names):
