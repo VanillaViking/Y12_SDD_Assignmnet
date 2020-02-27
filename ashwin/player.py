@@ -1,6 +1,7 @@
 import random
 import pygame
 from animate import animate
+from button import button
 
 
 class player():
@@ -30,6 +31,8 @@ class player():
                sign *= -1
             else:
                 pos[0] = pos[0] + (sign * int(128 * x_ratio))
+
+        self.mine = mine(DISPLAY)
 
 
     def roll(self):
@@ -124,7 +127,8 @@ class player():
 
 class mine():
     def __init__(self, DISPLAY):
-        self.available = False
+        self.selecting = False
+        self.active = False
         self.display = DISPLAY
         self.pos = None
         self.image = pygame.image.load("ashwin/mine.png").convert_alpha()
@@ -143,16 +147,36 @@ class mine():
 
             temp_pos = [temp_pos[0]+(128*x_ratio), temp_pos[1]]'''
 
-        
-        for n in range(9):
-            self.rect_list.append( pygame.Rect(temp_pos[0], temp_pos[1], temp_pos[0] + (128*x_ratio), temp_pos[1] + (97 * y_ratio)))
+        sign = 1
+        for b in range(10):
+            for n in range(9):
+                self.rect_list.append(pygame.Rect(temp_pos[0], temp_pos[1],(129*x_ratio),(98 * y_ratio)))
+                temp_pos = [temp_pos[0]+(sign*130*x_ratio), temp_pos[1]]
+                print(temp_pos)
+         
+            self.rect_list.append(pygame.Rect(temp_pos[0], temp_pos[1],(129*x_ratio),(98 * y_ratio)))
+            temp_pos = [temp_pos[0], temp_pos[1] + (97*x_ratio)]
+            sign *= -1
 
-            temp_pos = [temp_pos[0]+(128*x_ratio), temp_pos[1]]
+        self.rect_list.reverse()
+        self.btn_list = [] 
+        for n in self.rect_list:
+            self.btn_list.append(button([230,230,230, 0],[180,180,180,190],int(n[0]),int(n[1]),int(n[2]),int(n[3]), ""))
+            
 
-
-
-             
-
-    def draw(self):
-        self.display.blit(self.image, (self.pos))
+    def draw_select(self):
+        #self.display.blit(self.image, (self.pos))
+        #pygame.draw.rect(self.display, (44,23,254), self.rect_list[40])
+        for n in self.btn_list:
+            n.draw(self.display)
+    
+    def update(self, event):
+        for n in self.btn_list:
+            n.update(event)
+    
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for c,n in enumerate(self.btn_list):
+                if n.pressed:
+                    print(c+1)
+                    n.pressed = False
 

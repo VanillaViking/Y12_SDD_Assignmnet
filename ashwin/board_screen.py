@@ -16,13 +16,8 @@ class board_screen():
         self.stop_draw = False
         self.winner = None
         self.kill = False
-
         self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
-
-
         self.bg = bg.scrolling_bg(DISPLAY, (0,45,16), ["ashwin/snek.png","ashwin/ladder.png"], 10, False)
-
-
         
         #board
         self.bord = pygame.image.load("ashwin/board.png")
@@ -33,7 +28,9 @@ class board_screen():
 
         #exit button
         self.exit_btn = button([230,230,230, 100],[180,180,180, 190], DISPLAY.get_width() - 60, 10, 50, 50, "X")
-       
+      
+
+      
     def update_screens(self, btn_event):
         while not self.kill:
             self.bg.draw()
@@ -44,12 +41,13 @@ class board_screen():
             #Drawing Buttons
             self.exit_btn.draw(self.display)
             self.rand_btn.draw(self.display)
+            self.players[0].mine.draw_select()
 
             #Updating Buttons
             for event in pygame.event.get():
                 self.rand_btn.update(event)
                 self.exit_btn.update(event)
-            
+                self.players[0].mine.update(event)
             #Text showing player turn
             self.display.blit(self.turn_text, ((self.display.get_width() *4/5)-(self.turn_text.get_width()/2),(self.display.get_height()/8)-(self.turn_text.get_height()/2))) 
 
@@ -73,6 +71,7 @@ class board_screen():
             elif self.exit_btn.pressed:
                 btn_event.set()
                 break
+
 
 
     def draw(self):
@@ -102,8 +101,8 @@ class board_screen():
                 roll = self.players[self.player_turn].roll()
                 self.say(self.players[self.player_turn].name + " rolled " + roll, 0)
                 self.move_player()
+                self.give_mine(self.players[self.player_turn])
                 self.player_turn += 1
-
 
             if self.player_turn == len(self.players):
                 self.player_turn = 0
@@ -117,12 +116,10 @@ class board_screen():
                 if not self.stop_draw:
                     self.check_ai(self.players[self.player_turn])
 
-            
             self.check_same_square()
-
             wait_for_press.clear()
-
             #print(self.players[0].pos, self.players[1].pos)
+
 
 
     def move_player(self):
@@ -150,8 +147,11 @@ class board_screen():
             animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
 
 
+
     def anim_move(self, mover, start):
         mover.pos = [int(start[0]),int(start[1])]
+
+
 
     def check_ai(self, player):
         ai_roll = player.roll() 
@@ -164,12 +164,16 @@ class board_screen():
 
         self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
 
+
+
     def say(self, text, tim):
         self.surfaces = []
         thing = self.sfont.render(text, True, (255,255,255))
         self.surfaces.append([thing, (self.display.get_width()*4/5) - thing.get_width()/2, (self.display.get_height()/2) - 110])
         time.sleep(tim)
-    
+
+
+
     def check_same_square(self):
         for c,n in enumerate(self.players):
             if self.players[c-1].pos == n.pos:
@@ -179,7 +183,6 @@ class board_screen():
                     temp_2 = [self.players[c-1].pos[0],self.players[c-1].pos[1]]
                     animate(temp_2, (temp_2[0],temp_2[1]-(10)), self.anim_move, [self.players[c-1]], 10, 0.01)
 
-
         if len(self.players) == 4:
             if self.players[0].pos == self.players[2].pos: #checking this scenario since it does not get checked by the for loop above.
                     temp = [self.players[0].pos[0], self.players[0].pos[1]]
@@ -187,4 +190,10 @@ class board_screen():
 
                     temp_2 = [self.players[2].pos[0],self.players[2].pos[1]]
                     animate(temp_2, (temp_2[0],temp_2[1]-10), self.anim_move, [self.players[2]], 10, 0.01)
+
+
+
+    def give_mine(self, plr):
+        plr.mine.selecting = True
+        
 

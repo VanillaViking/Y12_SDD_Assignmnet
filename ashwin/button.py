@@ -5,11 +5,15 @@ pygame.font.init()
 
 class button():
   """class for simplifying the use of buttons"""
-  def __init__(self, real_col, change_col, x, y, w, h, text, text_col=(0,0,0), font_size=(30), wrapping=0, center=True, anim=True):
+  def __init__(self, real_col, change_col, x, y, w, h, text, text_col=(0,0,0), anim=True, font_size=(30), wrapping=0, center=True):
     arial = pygame.font.SysFont('Arial', font_size)
     self.real_col = real_col
     self.change_col = change_col
-    self.colour = real_col
+    if anim:
+        self.colour = [self.real_col[0],self.real_col[1],self.real_col[2],self.real_col[3]]
+    else:
+        self.colour = [self.real_col[0],self.real_col[1],self.real_col[2]]
+
     self.rect = pygame.Rect(x,y,w,h)
     self.center = center
     self.plain_text = text
@@ -52,8 +56,8 @@ class button():
            if self.colour[3] < self.change_col[3]:
                self.colour[3] += 10
         else:
-           if self.colour[3] > 100: #using 100 because self.real_col did not work
-               self.colour[3] -= 10 
+            if self.colour[3] > self.real_col[3]: #using 100 because self.real_col did not work
+                self.colour[3] -= 5 
     else:
         if self.isOver(pygame.mouse.get_pos()):
             self.colour = self.change_col 

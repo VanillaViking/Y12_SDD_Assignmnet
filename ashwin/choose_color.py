@@ -18,20 +18,16 @@ class choose_screen():
 
 
         #red_btn        
-        self.red_btn = button((255,0,0),(180,0,0), (DISPLAY.get_width()/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "")
-        self.red_btn.anim = False
+        self.red_btn = button((255,0,0),(180,0,0), (DISPLAY.get_width()/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "", (0,0,0), False)
 
         #green_btn
-        self.green_btn = button((0,255,0),(0,180,0), (DISPLAY.get_width() * 2/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "")
-        self.green_btn.anim = False
+        self.green_btn = button((0,255,0),(0,180,0), (DISPLAY.get_width() * 2/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "", (0,0,0), False)
 
         #blue_btn
-        self.blue_btn = button((0,0,255),(0,0,180), (DISPLAY.get_width() * 3/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "")
-        self.blue_btn.anim = False
+        self.blue_btn = button((0,0,255),(0,0,180), (DISPLAY.get_width() * 3/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "", (0,0,0), False)
 
         #purple_btn
-        self.purple_btn = button((255,0,255),(180,0,180), (DISPLAY.get_width() * 4/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "")
-        self.purple_btn.anim = False
+        self.purple_btn = button((255,0,255),(180,0,180), (DISPLAY.get_width() * 4/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "", (0,0,0), False)
 
     def update_btns(self, btn_event):
         while True:
