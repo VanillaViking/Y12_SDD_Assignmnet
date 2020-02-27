@@ -121,4 +121,38 @@ class player():
     def win_anim(self, start):
         self.radius = int(start[0])
         self.draw()
+
+class mine():
+    def __init__(self, DISPLAY):
+        self.available = False
+        self.display = DISPLAY
+        self.pos = None
+        self.image = pygame.image.load("ashwin/mine.png").convert_alpha()
+
+        x_ratio = DISPLAY.get_width()/1920 #these are used for displays other than 1080p
+        y_ratio = DISPLAY.get_height()/1080
+
+
+
+        self.rect_list = [] * 100
+
+        temp_pos = [50 * self.display.get_width()/1920, 50 * self.display.get_height()/1080]
+
+        '''for n in range(100, 0, -1):
+            self.rect_list[n] = pygame.Rect(temp_pos[0], temp_pos[1], temp_pos[0] + (128*x_ratio), temp_pos[1] + (97 * y_ratio))
+
+            temp_pos = [temp_pos[0]+(128*x_ratio), temp_pos[1]]'''
+
         
+        for n in range(9):
+            self.rect_list.append( pygame.Rect(temp_pos[0], temp_pos[1], temp_pos[0] + (128*x_ratio), temp_pos[1] + (97 * y_ratio)))
+
+            temp_pos = [temp_pos[0]+(128*x_ratio), temp_pos[1]]
+
+
+
+             
+
+    def draw(self):
+        self.display.blit(self.image, (self.pos))
+
