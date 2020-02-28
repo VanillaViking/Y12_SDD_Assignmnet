@@ -1,0 +1,48 @@
+Feb 08
+* initialized github repository
+* created base structure for launcher
+* still unsure about the structure of my game.
+
+Feb 10
+* I decided to have a main script which calls different screen scripts. All of the game logic will be in the main script, while the gui/visuals are taken care of by the screen programs.
+finished up a basic starting screen
+
+Feb 11
+* fixed an issue where button would sometimes not click
+added player class which contains the logic of the snakes and ladders.
+
+Feb 12
+* added a color choose screen, where the player would select the color of their pawn.
+* I might put the code for the pawn in the player class, since it doesnt really serve many other purposes.
+
+Feb 13
+* created an animate function, which takes two list of values and increments/decrements the values until the lists match at a given speed. Probably the most useful thing i made
+* finished alpha version of the game. now starting work on scrolling bg
+
+* scrolling background looks ugly. might do parallax instead.
+
+Feb 15
+* Scrapping scrolling background because of bugs & doesnt look that good.
+
+Feb 16
+* Added parallax effect bg for first two screens
+* last screen has scrolling bg that looks better
+* made a custom board. unsure about looks
+
+
+Feb 17
+* made a proper win exit condition, I have a good idea about an end animation
+
+Feb 19
+* finished ending animation
+* if two dots are on the same sqaure, they separate
+
+Feb 21
+* starting work on multiplayer
+
+Feb 23
+* multiplayer mostly functional. need to add error checks on details screen
+
+Feb 24
+* multiplayer fully finished
+* the dots move slightly if on the same square
