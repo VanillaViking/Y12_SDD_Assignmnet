@@ -2,6 +2,7 @@ import random
 import pygame
 from animate import animate
 from button import button
+import threading
 
 
 class player():
@@ -128,6 +129,8 @@ class player():
 class mine():
     def __init__(self, DISPLAY):
         self.selecting = False
+        self.selected = threading.Event()
+        self.selecttion = None
         self.active = False
         self.display = DISPLAY
         self.pos = None

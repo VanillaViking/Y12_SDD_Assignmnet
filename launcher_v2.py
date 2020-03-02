@@ -3,7 +3,7 @@ import sys
 
 #append the folder to system path:
 sys.path.append("ashwin/")
-sys.path.append("E:\\Sagar\\minesweeper")       # I have doubts about this - S 
+sys.path.append("minesweeper/")       # I have doubts about this - S 
  
 #import game file(s):
 #import snakes_ladders
@@ -31,10 +31,14 @@ wait = 0                                                                        
 
 def set_img(img_name, img_x, img_y, height, width, opacity):                                #for setting images 
     picture = pygame.image.load(img_name)                                                   #load image
-    picture = pygame.transform.scale(picture, (height, width))                              #changing the size of the image
+    picture = pygame.transform.scale(picture, (width, height))                              #changing the size of the image
+    return picture
 
-def draw_img(picture, img_x, img_y, opacity):
-    temp = pygame.Surface((picture.get_height(), picture.get_width())).convert()                                        #creating a temporary surface
+def draw_img(picture, img_x, img_y, height, width, opacity):                                               #for drawing the image onto the window
+
+    picture = pygame.transform.scale(picture, (width, height))                              #changing the size of the image
+    temp = pygame.Surface((height, width)).convert()                                        #creating a temporary surface
+
     temp.blit(picture, (0,0))                                                               #setting the image on the surface
     temp.set_alpha(opacity)                                                                 #allowing transparency for the temp surface
     window.blit(temp, (img_x,img_y))                                                        #setting the surface on the window
@@ -48,6 +52,20 @@ def text_box(font,font_size,text,R,G,B,x,y):                                    
     Text_surface.center = (x,y)                                                             #set the position of the center of the surface
     window.blit(Text, Text_surface)                                                         #setting it on the window
 
+
+rocket = set_img('launcher.png',int(bg_x*win_width/64),int(bg_y*win_height/64),int(bg_width*win_width/64),int(bg_height*win_width/64),255)
+
+black_bg = set_img("black.jpg",0,0,win_width,win_height,120)                                                                           #black background with transparency effect
+
+mine1 = set_img('mine.jpg',int(-5*win_width/64),int(-6*win_height/64),int(14*win_width/64),int(14*win_width/64),255)
+mine2 = set_img('mine.jpg',int(11*win_width/64),int(-4*win_height/64),int(9*win_width/64),int(9*win_width/64),255)
+mine3 = set_img('mine.jpg',int(22*win_width/64),int(-3*win_height/64),int(6*win_width/64),int(6*win_width/64),255)
+
+mine4 = set_img('mine2.jpg',int(-5*win_width/64),int(-6*win_height/64),int(17*win_width/64),int(17*win_width/64),255)
+mine5 = set_img('mine2.jpg',int(13*win_width/64),int(-4*win_height/64),int(11*win_width/64),int(11*win_width/64),255)
+mine6 = set_img('mine2.jpg',int(25*win_width/64),int(-3*win_height/64),int(7*win_width/64),int(7*win_width/64),255)
+
+
 #making a forever loop for making the program to run continuously
 prog_running = True     
 while prog_running:
@@ -60,7 +78,9 @@ while prog_running:
     mouse_pos = pygame.mouse.get_pos()                                                  #mouse_pos[0] - x coordinate, [1] - y coordinate
     pygame.display.flip()                                                               #updating the screen
 
+
 #------------------------------------------------------------------------------------homescreen----------------------------------------------------------------------------------
+
 
     if count == 0:
         text_box('lucidacalligraphy',int(2*win_height/64),"name of the launcher",0,0,0,int(10*win_width/64),int(7*win_height/64))               #title of the launcher (increase size appropriately)
@@ -70,10 +90,10 @@ while prog_running:
             bg_y -= 1
             bg_width += 0.2
             bg_height += 0.2
-            set_img('launcher.png',int(bg_x*win_width/64),int(bg_y*win_height/64),int(bg_width*win_width/64),int(bg_height*win_width/64),255)
+            draw_img(rocket, int(bg_x*win_width/64),int(bg_y*win_height/64),int(bg_width*win_width/64),int(bg_height*win_width/64),255)
 
         else:
-            set_img('launcher.png',int(bg_x*win_width/64),int(bg_y*win_height/64),int(bg_width*win_width/64),int(bg_height*win_width/64),255)   #final position of the rocket
+            draw_img(rocket, int(bg_x*win_width/64),int(bg_y*win_height/64),int(bg_width*win_width/64),int(bg_height*win_width/64),255) #final pos
 
             if g1_cnt == 1:                                                                                                                     #changing the colour of click to continue text continuously
                 g1 -= 15
@@ -102,7 +122,7 @@ while prog_running:
 #---------------------------------------------------------------------------------gameselectscreen-------------------------------------------------------------------------------------
         
     elif count == 1:
-        set_img("black.jpg",0,0,win_width,win_height,120)                                                                           #black background with transparency effect
+        draw_img(black_bg, 0,0,win_width,win_height, 120)
         pygame.draw.line(window,white,(int(win_width/2),0),(int(win_width/2),win_height),4)                                                   #dividing the screen in 4 parts
         pygame.draw.line(window,white,(0,int(win_height/2)),(win_width,int(win_height/2)),4)
         wait += 1
@@ -120,17 +140,23 @@ while prog_running:
 
         #minesweeper
         text_box('lucidacalligraphy',int(3*win_height/64),"Minesweeper",255,255,255,int(24*win_width/64),int(27*win_height/64))
+        
+        draw_img(mine1, int(-5*win_width/64),int(-6*win_height/64),int(14*win_width/64),int(14*win_width/64), 255)
+        draw_img(mine2, int(11*win_width/64),int(-4*win_height/64),int(9*win_width/64),int(9*win_width/64),255)
+        draw_img(mine3, int(22*win_width/64),int(-3*win_height/64),int(6*win_width/64),int(6*win_width/64),255)
 
-        set_img('mine.jpg',int(-5*win_width/64),int(-6*win_height/64),int(14*win_width/64),int(14*win_width/64),255)
-        set_img('mine.jpg',int(11*win_width/64),int(-4*win_height/64),int(9*win_width/64),int(9*win_width/64),255)
-        set_img('mine.jpg',int(22*win_width/64),int(-3*win_height/64),int(6*win_width/64),int(6*win_width/64),255)
+
 
         if pygame.Rect(0,0,int(32*win_width/64),int(32*win_height/64)).collidepoint(mouse_pos[0],mouse_pos[1]):
             pygame.draw.rect(window,white,pygame.Rect(0,0,int(33*win_width/64),int(33*win_height/64)),0)
             text_box('lucidacalligraphy',int(4.5*win_height/64),"Minesweeper",0,0,0,int(22*win_width/64),int(26*win_height/64))
-            set_img('mine2.jpg',int(-5*win_width/64),int(-6*win_height/64),int(17*win_width/64),int(17*win_width/64),255)
-            set_img('mine2.jpg',int(13*win_width/64),int(-4*win_height/64),int(11*win_width/64),int(11*win_width/64),255)
-            set_img('mine2.jpg',int(25*win_width/64),int(-3*win_height/64),int(7*win_width/64),int(7*win_width/64),255)
+
+            draw_img(mine4,int(-5*win_width/64),int(-6*win_height/64),int(17*win_width/64),int(17*win_width/64),255)
+            draw_img(mine5,int(13*win_width/64),int(-4*win_height/64),int(11*win_width/64),int(11*win_width/64),255)
+            draw_img(mine6,int(25*win_width/64),int(-3*win_height/64),int(7*win_width/64),int(7*win_width/64),255)
+
+
+
             
             '''if mouse_press[0] == 1 and wait >= 15:
                 __name__ = '__ms__'

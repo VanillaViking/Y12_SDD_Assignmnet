@@ -41,13 +41,15 @@ class board_screen():
             #Drawing Buttons
             self.exit_btn.draw(self.display)
             self.rand_btn.draw(self.display)
-            self.players[0].mine.draw_select()
 
             #Updating Buttons
             for event in pygame.event.get():
                 self.rand_btn.update(event)
                 self.exit_btn.update(event)
-                self.players[0].mine.update(event)
+                for n in self.players:
+                    if n.mine.selecting:
+                        n.mine.update(event)
+
             #Text showing player turn
             self.display.blit(self.turn_text, ((self.display.get_width() *4/5)-(self.turn_text.get_width()/2),(self.display.get_height()/8)-(self.turn_text.get_height()/2))) 
 
@@ -59,6 +61,8 @@ class board_screen():
             if not self.stop_draw:
                 for n in self.players:
                     n.draw()
+                    if n.mine.selecting:
+                        n.mine.draw_select()
             else:
                 self.winner.draw()
 
@@ -101,7 +105,10 @@ class board_screen():
                 roll = self.players[self.player_turn].roll()
                 self.say(self.players[self.player_turn].name + " rolled " + roll, 0)
                 self.move_player()
-                self.give_mine(self.players[self.player_turn])
+
+                if roll == "6":
+                    self.give_mine(self.players[self.player_turn])
+
                 self.player_turn += 1
 
             if self.player_turn == len(self.players):
