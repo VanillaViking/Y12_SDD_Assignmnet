@@ -6,7 +6,7 @@ sys.path.append("ashwin/")
 sys.path.append("minesweeper/")       # I have doubts about this - S 
  
 #import game file(s):
-#import snakes_ladders
+import snakes_ladders
 #import minesweeper
 import bg
 
@@ -205,11 +205,11 @@ while prog_running:
             text_box('lucidacalligraphy',int(4.5*win_height/64),"Snakes & Ladders",0,0,0,int(45*win_width/64),int(26*win_height/64))
             snake_bg.stop = False
             snake_bg.draw()
-        else:
-            pass
-            #snake_bg.stop = True
-        
-        
 
+            if mouse_press[0] == 1 and wait >= 15:
+                __name__ = '__sl__'
+                snakes_ladders.run(window)
+                count = 0
+                wait = 0
 
 

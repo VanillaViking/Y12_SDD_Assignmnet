@@ -8,6 +8,8 @@ import bg
 class starting_screen():
     def __init__(self, DISPLAY, bg):
         self.bg = bg
+        DISPLAY.fill((0,0,0))
+
         self.display = DISPLAY
         self.font = pygame.font.SysFont('Arial', 50)
 

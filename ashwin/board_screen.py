@@ -18,7 +18,9 @@ class board_screen():
         self.kill = False
         self.turn_text = self.sfont.render(self.players[self.player_turn].name + "'s Turn", True, (255,255,255))
         self.bg = bg.scrolling_bg(DISPLAY, (0,45,16), ["ashwin/snek.png","ashwin/ladder.png"], 10, False)
-        
+        self.mine_text = self.sfont.render("Mine Acquired! Click to place.", True, (255,255,255)) 
+        self.mine_squares = [None] * len(players)
+
         #board
         self.bord = pygame.image.load("ashwin/board.png")
         self.bord = pygame.transform.scale(self.bord, (int(1300 * (self.display.get_width()/1920)),int(970 * (self.display.get_height()/1080)))).convert_alpha() #multiplying resolution by size of current display compared to a 1080p screen, done so that image can scale down for smaller displays. (please just use a 1080p screen >...<)
@@ -48,7 +50,7 @@ class board_screen():
                 self.exit_btn.update(event)
                 for n in self.players:
                     if n.mine.selecting:
-                        n.mine.update(event)
+                        n.mine.update(event, [n.square for n in self.players])
 
             #Text showing player turn
             self.display.blit(self.turn_text, ((self.display.get_width() *4/5)-(self.turn_text.get_width()/2),(self.display.get_height()/8)-(self.turn_text.get_height()/2))) 
@@ -61,8 +63,12 @@ class board_screen():
             if not self.stop_draw:
                 for n in self.players:
                     n.draw()
+                    n.mine.draw_mine()
+
                     if n.mine.selecting:
                         n.mine.draw_select()
+                        self.display.blit(self.mine_text, ((self.display.get_width() * 4/5) - (self.mine_text.get_width()/2), (self.display.get_height()*3/4) - (self.mine_text.get_height()/3)))
+
             else:
                 self.winner.draw()
 
@@ -102,12 +108,14 @@ class board_screen():
                     break
                 
                 #player roll
+                self.despawn_mines()
                 roll = self.players[self.player_turn].roll()
                 self.say(self.players[self.player_turn].name + " rolled " + roll, 0)
                 self.move_player()
 
                 if roll == "6":
-                    self.give_mine(self.players[self.player_turn])
+                    if not self.players[self.player_turn].mine.selection:
+                        self.give_mine(self.players[self.player_turn])
 
                 self.player_turn += 1
 
@@ -134,6 +142,19 @@ class board_screen():
         temp = [mover.pos[0],mover.pos[1]]
         animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
         time.sleep(0.2)
+        for c,n in enumerate(self.mine_squares):
+            if mover.square == n:
+                mover.square = 1
+
+                temp = [mover.pos[0],mover.pos[1]]
+
+                self.players[c].mine.detonate()
+                self.mine_squares[c] = None
+                animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
+                time.sleep(0.2)
+
+
+
         status = mover.check_sl()  #check if mover lands on a snake/ladder
 
         if status == 'ok':
@@ -150,7 +171,6 @@ class board_screen():
 
         else:
             temp = [mover.pos[0],mover.pos[1]]
-            print(status)
             animate(temp, mover.number_coords[mover.square], self.anim_move, [mover], 60, 0.01)
 
 
@@ -202,5 +222,25 @@ class board_screen():
 
     def give_mine(self, plr):
         plr.mine.selecting = True
+
+        plr.mine.selected.wait()  
         
+        self.mine_squares[self.player_turn] = plr.mine.selection+1
+        print(self.mine_squares)
+        plr.mine.selecting = False
+        plr.mine.selected.clear()
+
+    def despawn_mines(self):    #detonate any mines that have already been passed by all players 
+        for c,n in enumerate(self.mine_squares):
+            despawn = True
+            if n:
+                for p in self.players:
+                    if p.square < n:
+                        despawn = False
+                        break
+
+                if despawn:
+                    self.players[c].mine.detonate()
+            
+            
 

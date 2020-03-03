@@ -130,16 +130,17 @@ class mine():
     def __init__(self, DISPLAY):
         self.selecting = False
         self.selected = threading.Event()
-        self.selecttion = None
+        self.selection = None
         self.active = False
         self.display = DISPLAY
         self.pos = None
-        self.image = pygame.image.load("ashwin/mine.png").convert_alpha()
+        self.image = pygame.image.load("ashwin/mine.png")
 
         x_ratio = DISPLAY.get_width()/1920 #these are used for displays other than 1080p
         y_ratio = DISPLAY.get_height()/1080
 
-
+        
+        self.image = pygame.transform.scale(self.image, (int(100 * x_ratio),int(100 * y_ratio))).convert_alpha()
 
         self.rect_list = [] * 100
 
@@ -173,13 +174,28 @@ class mine():
         for n in self.btn_list:
             n.draw(self.display)
     
-    def update(self, event):
+    def update(self, event, player_squares):
         for n in self.btn_list:
             n.update(event)
     
         if event.type == pygame.MOUSEBUTTONDOWN:
             for c,n in enumerate(self.btn_list):
                 if n.pressed:
-                    print(c+1)
                     n.pressed = False
 
+                    if c == 99:
+                        return 'no'
+                    if c+1 in player_squares:
+                        return 'no'
+
+                    self.selection = c
+                    self.selected.set()
+
+                    print(c+1)
+
+    def draw_mine(self):
+        if self.selection:
+            self.display.blit(self.image, (self.rect_list[self.selection][0],self.rect_list[self.selection][1]))
+
+    def detonate(self):
+        self.selection = None
