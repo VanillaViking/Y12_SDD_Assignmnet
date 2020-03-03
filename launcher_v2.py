@@ -8,6 +8,7 @@ sys.path.append("minesweeper/")       # I have doubts about this - S
 #import game file(s):
 #import snakes_ladders
 #import minesweeper
+import bg
 
 pygame.init()
 
@@ -28,6 +29,8 @@ rad1,rad2 = win_width,win_height                                                
 r1,g1,b1 = 255,255,255                                                                      #colours for click to continue
 g1_cnt = 1                                                                                  #indicates to either decrease or increase the values for r,g,b 
 wait = 0                                                                                    #for avoiding multiple clicks
+
+#snakes and ladders background
 
 def set_img(img_name, img_x, img_y, height, width, opacity):                                #for setting images 
     picture = pygame.image.load(img_name)                                                   #load image
@@ -65,6 +68,15 @@ mine4 = set_img('mine2.jpg',int(-5*win_width/64),int(-6*win_height/64),int(17*wi
 mine5 = set_img('mine2.jpg',int(13*win_width/64),int(-4*win_height/64),int(11*win_width/64),int(11*win_width/64),255)
 mine6 = set_img('mine2.jpg',int(25*win_width/64),int(-3*win_height/64),int(7*win_width/64),int(7*win_width/64),255)
 
+#surface for snakes and ladders bg
+bg_surf = pygame.Surface((int(33*win_width/64),int(33*win_height/64)))
+bg_surf.fill((255,255,255))
+
+snake_bg = bg.scrolling_bg(bg_surf, (255,255,255), ["ashwin/snek.png","ashwin/ladder.png"], 15)
+#snake_bg.stop = True
+snake_bg.anim_start()
+
+snek = set_img('snake.jpg', int(45*win_width/64),int(26*win_height/64),300,300,255)
 
 #making a forever loop for making the program to run continuously
 prog_running = True     
@@ -185,9 +197,17 @@ while prog_running:
         #snakes
         text_box('lucidacalligraphy',int(3*win_height/64),"Snakes & Ladders",255,255,255,int(42*win_width/64),int(27*win_height/64))
 
+        draw_img(snek, int(45*win_width/64)-200,int(26*win_height/64)-200,200,200,255)
+
         if pygame.Rect(int(32*win_width/64),0,int(32*win_width/64),int(32*win_height/64)).collidepoint(mouse_pos[0],mouse_pos[1]):
-            pygame.draw.rect(window,white,pygame.Rect(int(31*win_width/64),0,int(33*win_width/64),int(33*win_height/64)),0)
+            window.blit(bg_surf, (int(31*win_width/64),0))
+            #pygame.draw.rect(window,white,pygame.Rect(int(31*win_width/64),0,int(33*win_width/64),int(33*win_height/64)),0)
             text_box('lucidacalligraphy',int(4.5*win_height/64),"Snakes & Ladders",0,0,0,int(45*win_width/64),int(26*win_height/64))
+            snake_bg.stop = False
+            snake_bg.draw()
+        else:
+            pass
+            #snake_bg.stop = True
         
         
 
