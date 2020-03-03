@@ -40,11 +40,11 @@ class win_screen():
 
             self.exit_btn.draw(self.display)
             self.bacc_btn.draw(self.display)
-            self.retry_btn.draw(self.display)
+            #self.retry_btn.draw(self.display)
 
             for event in pygame.event.get():
                 self.exit_btn.update(event)
-                self.retry_btn.update(event)
+                #self.retry_btn.update(event)
                 self.bacc_btn.update(event)
             pygame.display.update()
         btn_event.set()

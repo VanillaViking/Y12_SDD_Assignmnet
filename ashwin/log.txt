@@ -46,3 +46,17 @@ Feb 23
 Feb 24
 * multiplayer fully finished
 * the dots move slightly if on the same square
+
+Feb 27
+* started working on a mine feature. When a player rolls a 6, they receive a mine which they can place on any square on the board. if a player steps on that square they go back to the beginning
+
+Mar 2
+* Sagar finished the main structure of the launcher. Took today to analyse the program
+
+Mar 3
+* finished the scrolling bg in the launcher (reused same bg from the game.)
+* objects in scrolling bg now move at different speeds
+
+Mar 4
+* Mines are now fully working
+* final touches
