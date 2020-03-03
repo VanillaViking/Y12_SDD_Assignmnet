@@ -20,10 +20,10 @@ def run(DISPLAY):
     
     if choice == 'sp': #singleplayer against AI
         color_choose = choose_color.choose_screen(DISPLAY, background)
-        col = color_choose.draw()
+        col = color_choose.draw() #choice of pawn color
         plyrs = []
         ai_col = (0,255,255)
-        plyrs.append(player.player(DISPLAY, "You", col)) #player
+        plyrs.append(player.player(DISPLAY, "player", col)) #player
         plyrs.append(player.player(DISPLAY, "AI", ai_col, True)) #ai
 
         bored = board_screen.board_screen(DISPLAY, plyrs)

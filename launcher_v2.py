@@ -14,8 +14,8 @@ pygame.init()
 
 white = [255,255,255]                   
 black = [0,0,0]
-#window = pygame.display.set_mode((0,0), pygame.FULLSCREEN)                                  #full screen display
-window = pygame.display.set_mode((1280, 720))                                  #full screen display
+window = pygame.display.set_mode((0,0), pygame.FULLSCREEN)                                  #full screen display
+#window = pygame.display.set_mode((1280, 720))                                  #full screen display
 pygame.display.set_caption("BARS launcher")                                                 #setting the name at the title bar
 window.fill(white)                                                                          #white background
 
@@ -77,6 +77,7 @@ snake_bg = bg.scrolling_bg(bg_surf, (255,255,255), ["ashwin/snek.png","ashwin/la
 snake_bg.anim_start()
 
 snek = set_img('snake.jpg', int(45*win_width/64),int(26*win_height/64),300,300,255)
+ladder  = set_img('lladder.png', int(45*win_width/64),int(26*win_height/64),300,300,255)
 
 #making a forever loop for making the program to run continuously
 prog_running = True     
@@ -198,6 +199,7 @@ while prog_running:
         text_box('lucidacalligraphy',int(3*win_height/64),"Snakes & Ladders",255,255,255,int(42*win_width/64),int(27*win_height/64))
 
         draw_img(snek, int(45*win_width/64)-200,int(26*win_height/64)-200,200,200,255)
+        draw_img(ladder, int(45*win_width/64),int(8.2*win_height/64),200,200,255)
 
         if pygame.Rect(int(32*win_width/64),0,int(32*win_width/64),int(32*win_height/64)).collidepoint(mouse_pos[0],mouse_pos[1]):
             window.blit(bg_surf, (int(31*win_width/64),0))

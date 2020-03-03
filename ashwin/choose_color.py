@@ -29,14 +29,14 @@ class choose_screen():
         #purple_btn
         self.purple_btn = button((255,0,255),(180,0,180), (DISPLAY.get_width() * 4/5) - 50, (DISPLAY.get_height()/2) -50, 100, 100, "", (0,0,0), False)
 
-    def update_btns(self, btn_event):
+    def update_btns(self, btn_event): #runs on separate thread
         while True:
             self.background.draw()
 
             #heading
             self.display.blit(self.heading, ((self.display.get_width()/2) - (self.heading.get_width() / 2),(self.display.get_height()/4 - (self.heading.get_height()/2)))) 
 
-
+            #drawing the buttons
             self.exit_btn.draw(self.display)
             self.red_btn.draw(self.display)
             self.purple_btn.draw(self.display)
@@ -44,6 +44,7 @@ class choose_screen():
             self.blue_btn.draw(self.display)
 
             for event in pygame.event.get():
+                #updating the buttons
                 self.exit_btn.update(event)
                 self.red_btn.update(event)
                 self.blue_btn.update(event)
@@ -51,7 +52,6 @@ class choose_screen():
                 self.purple_btn.update(event)
 
 
-            #pygame.display.update([self.exit_btn.rect, self.red_btn.rect, self.blue_btn.rect, self.green_btn.rect, self.purple_btn.rect])
             pygame.display.update()
 
             if self.exit_btn.pressed or self.red_btn.pressed or self.blue_btn.pressed or self.green_btn.pressed or self.purple_btn.pressed:
@@ -71,6 +71,7 @@ class choose_screen():
         if self.exit_btn.pressed:
             pygame.QUIT
             quit()
+            #return the color when pressed
         elif self.red_btn.pressed:
             return (255,0,0)
         elif self.blue_btn.pressed:

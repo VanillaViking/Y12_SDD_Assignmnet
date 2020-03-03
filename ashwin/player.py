@@ -23,7 +23,7 @@ class player():
 
         sign = 1
 
-        for num in range(1,101):
+        for num in range(1,101): #creating a grid of coordinates for the pawn to move
             
             self.number_coords.append((pos[0],pos[1]))
 
@@ -33,7 +33,7 @@ class player():
             else:
                 pos[0] = pos[0] + (sign * int(128 * x_ratio))
 
-        self.mine = mine(DISPLAY)
+        self.mine = mine(DISPLAY) #each player gets a mine
 
 
     def roll(self):
