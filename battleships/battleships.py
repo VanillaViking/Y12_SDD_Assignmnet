@@ -1,12 +1,12 @@
 import pygame,time,random
 pygame.init()
  
-def Battleships(): #main game code
+def Battleships(Display): #main game code
     # Window Parameters
     info = pygame.display.Info()# current_w = 1366, current_h = 768 for my computer
     display_width = info.current_w
     display_height = info.current_h
-    Display = pygame.display.set_mode((display_width, display_height), pygame.FULLSCREEN)
+    #Display = pygame.display.set_mode((display_width, display_height), pygame.FULLSCREEN)
     pygame.display.set_caption('Battleship') #Window title
 
     # Colour variables
@@ -24,7 +24,7 @@ def Battleships(): #main game code
     crashed = False
     screen = 0
     ship_mov_count = display_width
-    font0 = pygame.font.Font("warfont.OTF",500)
+    font0 = pygame.font.Font("battleships/warfont.otf",500)
     text0 = font0.render("Battleships", True,coffee) #text, ,RGB
 
 
@@ -32,11 +32,11 @@ def Battleships(): #main game code
 
 
     # Image imports
-    fleet_img = pygame.image.load("fleet.png") #1600 x 654
-    ship1 = pygame.image.load("Untitled-11.png") #621*403
-    ship2 = pygame.image.load("Untitled-10.png") #618*188
-    homebutton = pygame.image.load("Homebutton.png") #512*512
-    torpedo = pygame.image.load("torpedo.png") #199*1027
+    fleet_img = pygame.image.load("battleships/fleet.png") #1600 x 654
+    ship1 = pygame.image.load("battleships/Untitled-11.png") #621*403
+    ship2 = pygame.image.load("battleships/Untitled-10.png") #618*188
+    homebutton = pygame.image.load("battleships/Homebutton.png") #512*512
+    torpedo = pygame.image.load("battleships/torpedo.png") #199*1027
 
     # Image transforms
     fleet_img_tr1 = pygame.transform.scale(fleet_img,(display_width, display_height))
@@ -231,11 +231,11 @@ def Battleships(): #main game code
             for x_letter in range(self.size+1):
                 x_letter_pos = x_letter*self.box_width + (self.box_width/2+1) + self.start_xpos
                 y_letter_pos = self.start_ypos - 15
-                text(Display,coffee,x_letter_pos-2,y_letter_pos,10,10,"ARLRDBD.TTF",10,x_letter+1)
+                text(Display,coffee,x_letter_pos-2,y_letter_pos,10,10,"battleships/ARLRDBD.TTF",10,x_letter+1)
             for y_letter in range(self.size+1):
                 y_letter_pos = y_letter*self.box_height + (self.box_height/2+1) + self.start_ypos
                 x_letter_pos = self.start_xpos - 15
-                text(Display,coffee,x_letter_pos-2,y_letter_pos,10,10,"ARLRDBD.TTF",10,y_letter+1)
+                text(Display,coffee,x_letter_pos-2,y_letter_pos,10,10,"battleships/ARLRDBD.TTF",10,y_letter+1)
             pygame.display.update()
             #print("start positions", self.startpos)
             
@@ -303,19 +303,19 @@ def Battleships(): #main game code
         elif screen == 0.5:
             Display.blit(fleet_img_tr1,(0,0))
 
-            text(Display,coffee,int(display_width/2 - 350),10,740,80,"warfont.OTF",100,"Battleships") #width of the title is 700
+            text(Display,coffee,int(display_width/2 - 350),10,740,80,"battleships/warfont.otf",100,"Battleships") #width of the title is 700
             
             if button(Display,coffee,int(display_width/2 - 90), (int(display_height/2)),180,80,2) == True:
                 screen = 1
-            text(Display,coffee,int(display_width/2 - 90), (int(display_height/2)),180,80,"ARLRDBD.TTF",70,"Start")
+            text(Display,coffee,int(display_width/2 - 90), (int(display_height/2)),180,80,"battleships/ARLRDBD.TTF",70,"Start")
             
             if button(Display,coffee,int(display_width/2 - 120), (display_height-150),240,75,2) == True:
                 __name__ = '__launcher__'
-            text(Display,coffee,int(display_width/2 - 120), (display_height-150),240,75,"ARLRDBD.TTF",60,"B.A.R.S.")
+            text(Display,coffee,int(display_width/2 - 120), (display_height-150),240,75,"battleships/ARLRDBD.TTF",60,"B.A.R.S.")
 
             if button(Display,coffee,int(display_width-60), (10),25,45,2) == True:
                 pygame.quit()
-            text(Display,coffee,int(display_width- 60), (10),25,45,"ARLRDBD.TTF",40,"X")
+            text(Display,coffee,int(display_width- 60), (10),25,45,"battleships/ARLRDBD.TTF",40,"X")
             
     ##########################
 
@@ -335,10 +335,10 @@ def Battleships(): #main game code
             Display.fill(black,pygame.Rect(0,0,int(display_width/2+110),display_height))
             Display.fill(black,pygame.Rect((int(display_width/4)*3-72,510,145,41)))
             
-            text(Display,coffee,(int(display_width/2-105)),(10),210,50,"warfont.OTF",60,"setup")
-            text(Display,coffee,int(display_width/4)-20,100,90,40,"ARLRDBD.TTF",30,"Ships")
-            text(Display,coffee,int(display_width/4)-100,520,150,20,"ARLRDBD.TTF",20,"Instructions:")
-            text(Display,coffee,int(display_width/4)*3-70,510,140,40,"ARLRDBD.TTF",30,"Your Grid")
+            text(Display,coffee,(int(display_width/2-105)),(10),210,50,"battleships/warfont.otf",60,"setup")
+            text(Display,coffee,int(display_width/4)-20,100,90,40,"battleships/ARLRDBD.TTF",30,"Ships")
+            text(Display,coffee,int(display_width/4)-100,520,150,20,"battleships/ARLRDBD.TTF",20,"Instructions:")
+            text(Display,coffee,int(display_width/4)*3-70,510,140,40,"battleships/ARLRDBD.TTF",30,"Your Grid")
 
             #pygame.display.flip()
 
@@ -347,7 +347,7 @@ def Battleships(): #main game code
                 selection_1 = 3
                 screen = 3
                 colour1_indicator = red
-            text(Display,coffee,int(display_width/4)-98,(200),200,20,"ARLRDBD.TTF",20,"1: A ship that is 1 * 3")
+            text(Display,coffee,int(display_width/4)-98,(200),200,20,"battleships/ARLRDBD.TTF",20,"1: A ship that is 1 * 3")
             pygame.draw.line(Display, colour1_indicator,((int(display_width/4)+112),210),((int(display_width/4)+142),210),10)
 
             if button(Display,coffee,int(display_width/4)-100,230,200,25,2) == True and 2 not in selection:
@@ -355,7 +355,7 @@ def Battleships(): #main game code
                 selection_1 = 3
                 screen = 3
                 colour2_indicator = red
-            text(Display,coffee,int(display_width/4)-98,(230),200,20,"ARLRDBD.TTF",20,"2: A ship that is 1 * 3")
+            text(Display,coffee,int(display_width/4)-98,(230),200,20,"battleships/ARLRDBD.TTF",20,"2: A ship that is 1 * 3")
             pygame.draw.line(Display, colour2_indicator,((int(display_width/4)+112),240),((int(display_width/4)+142),240),10)
 
             if button(Display,coffee,int(display_width/4)-100,260,200,25,2) == True and 3 not in selection:
@@ -363,7 +363,7 @@ def Battleships(): #main game code
                 selection_1 = 3
                 screen = 3
                 colour3_indicator = red
-            text(Display,coffee,int(display_width/4)-98,(260),200,20,"ARLRDBD.TTF",20,"3: A ship that is 1 * 3")
+            text(Display,coffee,int(display_width/4)-98,(260),200,20,"battleships/ARLRDBD.TTF",20,"3: A ship that is 1 * 3")
             pygame.draw.line(Display, colour3_indicator, ((int(display_width/4)+112),270),((int(display_width/4)+142),270),10)
 
             if button(Display,coffee,10,10,50,50,2) == True:
@@ -384,7 +384,7 @@ def Battleships(): #main game code
                     setupins = "Please place your Ship on 'Your Grid'"
                     pygame.draw.rect(Display,coffee,(int(display_width/4)-110,510,400,100),2)# instruction box outline
                     pygame.draw.rect(Display,white,(int(display_width/4)*3-72,510,142,40),2)# Your grid outline
-            text(Display,coffee,int(display_width/4)-100,540,250,20,"ARLRDBD.TTF",20,setupins)
+            text(Display,coffee,int(display_width/4)-100,540,250,20,"battleships/ARLRDBD.TTF",20,setupins)
             click_counter = 0
 
     ##########################
@@ -403,7 +403,7 @@ def Battleships(): #main game code
                     Display.fill(black,pygame.Rect(display_width - 257, (display_height-172),140,55))
                     if button(Display,coffee,(display_width - 255), (display_height-170),135,50,2) == True:
                         screen = 3.5
-                    text(Display,coffee,(display_width - 250), (display_height-170),135,50,"ARLRDBD.TTF",40,"Attack")
+                    text(Display,coffee,(display_width - 250), (display_height-170),135,50,"battleships/ARLRDBD.TTF",40,"Attack")
                 else:
                     screen = 2
 
@@ -426,17 +426,17 @@ def Battleships(): #main game code
         elif screen == 4:
             torpedo_mov = 0
             Display.fill(black)
-            text(Display,coffee,(int(display_width/2-160)),(10),320,50,"warfont.OTF",60,"War Zone")
+            text(Display,coffee,(int(display_width/2-160)),(10),320,50,"battleships/warfont.otf",60,"War Zone")
             
             user = player(Display,int(display_width/4)*3-205,100,light_blue,40,40,10)
             user.grid()
-            text(Display,coffee,int(display_width/4)*3-150,(525),200,20,"ARLRDBD.TTF",40,"Opponents Grid")
+            text(Display,coffee,int(display_width/4)*3-150,(525),200,20,"battleships/ARLRDBD.TTF",40,"Opponents Grid")
             
             screen = 5
             screen5_counter = 0
             turn_counter = 0
             
-            text(Display,coffee,int(display_width/4)-100,(525),200,20,"ARLRDBD.TTF",40,"Your Grid")
+            text(Display,coffee,int(display_width/4)-100,(525),200,20,"battleships/ARLRDBD.TTF",40,"Your Grid")
             setup.start_xpos = int(display_width/4)-205
             setup.start_ypos = 100
             setup.grid()
@@ -446,16 +446,16 @@ def Battleships(): #main game code
             ai.AI_grid()
 
             pygame.draw.rect(Display,(red),(int(display_width/4)-205,625,user.box_width/2,user.box_height/2),0)
-            text(Display,coffee,int(display_width/4)-175,625,200,20,"ARLRDBD.TTF",20,"Red = you hit your opponent's ship")
+            text(Display,coffee,int(display_width/4)-175,625,200,20,"battleships/ARLRDBD.TTF",20,"Red = you hit your opponent's ship")
             
             pygame.draw.rect(Display,(neon_blue),(int(display_width/4)-205,650,user.box_width/2,user.box_height/2),0)
-            text(Display,coffee,int(display_width/4)-175,650,200,20,"ARLRDBD.TTF",20,"Neon blue = coordinates you aimed")
+            text(Display,coffee,int(display_width/4)-175,650,200,20,"battleships/ARLRDBD.TTF",20,"Neon blue = coordinates you aimed")
             
             pygame.draw.rect(Display,(dark_red),(int(display_width/4)-205,675,user.box_width/2,user.box_height/2),0)
-            text(Display,coffee,int(display_width/4)-175,675,200,20,"ARLRDBD.TTF",20,"Dark red = your ship arrangement")
+            text(Display,coffee,int(display_width/4)-175,675,200,20,"battleships/ARLRDBD.TTF",20,"Dark red = your ship arrangement")
             
             pygame.draw.rect(Display,(grey),(int(display_width/4)-205,700,user.box_width/2,user.box_height/2),0)
-            text(Display,coffee,int(display_width/4)-175,700,200,20,"ARLRDBD.TTF",20,"Grey = coordinates your opponent aimed")
+            text(Display,coffee,int(display_width/4)-175,700,200,20,"battleships/ARLRDBD.TTF",20,"Grey = coordinates your opponent aimed")
             
             pygame.draw.rect(Display,coffee,(int(display_width/4)-215,615,450,115),2)
 
@@ -472,8 +472,8 @@ def Battleships(): #main game code
                     screen = 0
                 Display.blit(homebutton_tr,(10,10))
                 pygame.draw.rect(Display,coffee,(int(display_width/4)*3-215,615,500,50),2)
-                text(Display,coffee,int(display_width/4)*3-210,615,150,20,"ARLRDBD.TTF",20,"Instructions:")
-                text(Display,coffee,int(display_width/4)*3-210,635,150,20,"ARLRDBD.TTF",20,"Your Turn: Please select a coordinate for attack")
+                text(Display,coffee,int(display_width/4)*3-210,615,150,20,"battleships/ARLRDBD.TTF",20,"Instructions:")
+                text(Display,coffee,int(display_width/4)*3-210,635,150,20,"battleships/ARLRDBD.TTF",20,"Your Turn: Please select a coordinate for attack")
                 if user.detect(0,0,False) == True:
                     #print("your turn1")
                     time.sleep(0.1)
@@ -489,8 +489,8 @@ def Battleships(): #main game code
             else:
                 Display.fill(black,pygame.Rect(int(display_width/4)*3-210,610,500,50))
                 pygame.draw.rect(Display,coffee,(int(display_width/4)*3-215,615,500,50),2)
-                text(Display,coffee,int(display_width/4)*3-210,615,150,20,"ARLRDBD.TTF",20,"Instructions:")
-                text(Display,coffee,int(display_width/4)*3-210,635,150,20,"ARLRDBD.TTF",20,"Opponents turn")
+                text(Display,coffee,int(display_width/4)*3-210,615,150,20,"battleships/ARLRDBD.TTF",20,"Instructions:")
+                text(Display,coffee,int(display_width/4)*3-210,635,150,20,"battleships/ARLRDBD.TTF",20,"Opponents turn")
                 pygame.display.flip()
                 time.sleep(0.8) #for processing effects
                 ai.AI_main(True)
@@ -505,26 +505,27 @@ def Battleships(): #main game code
             Display.fill(black,pygame.Rect(int(display_width/4)*3-212,610,520,display_height-605))
             if button(Display,coffee,(int(display_width/4)*3-215),615,145,50,2) == True:
                 screen = 7
-            text(Display,coffee,(int(display_width/4)*3-215),615,145,50,"ARLRDBD.TTF",40,"Results")
+            text(Display,coffee,(int(display_width/4)*3-215),615,145,50,"battleships/ARLRDBD.TTF",40,"Results")
             
         elif screen == 7:
             Display.fill(black)
             if len(ai.hit) == 18:
-                text(Display,coffee,(int(display_width/2)-262),100,525,80,"warfont.OTF",100,"You Lost")
+                text(Display,coffee,(int(display_width/2)-262),100,525,80,"battleships/warfont.otf",100,"You Lost")
             else:
-                text(Display,coffee,(int(display_width/2)-262),100,525,80,"warfont.OTF",100,"You Won")
+                text(Display,coffee,(int(display_width/2)-262),100,525,80,"battleships/warfont.otf",100,"You Won")
 
             if button(Display,coffee,(display_width/2 - 170), int(display_height/2),340,70,2) == True:
                 screen = 0
-            text(Display,coffee,(display_width/2 - 170), int(display_height/2),340,70,"ARLRDBD.TTF",60,"Game Menu")
+            text(Display,coffee,(display_width/2 - 170), int(display_height/2),340,70,"battleships/ARLRDBD.TTF",60,"Game Menu")
             
             if button(Display,coffee,int(display_width/2 - 120), (display_height/2+150),240,75,2) == True:
-                __name__ = '__launcher__'
-            text(Display,coffee,int(display_width/2 - 120), (display_height/2+150),240,75,"ARLRDBD.TTF",60,"B.A.R.S.")
+                #__name__ = '__launcher__'
+            #text(Display,coffee,int(display_width/2 - 120), (display_height/2+150),240,75,"battleships/ARLRDBD.TTF",60,"B.A.R.S.")
+                break
             
             
         pygame.display.flip()
     pygame.quit()
     quit()
-if __name__ == '__main__':
-    Battleships()
+#if __name__ == '__bs__':
+#    Battleships()

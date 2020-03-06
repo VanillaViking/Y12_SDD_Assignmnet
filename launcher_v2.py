@@ -4,11 +4,15 @@ import sys
 #append the folder to system path:
 sys.path.append("ashwin/")
 sys.path.append("minesweeper/")       # I have doubts about this - S 
+sys.path.append("battleships/")
  
 #import game file(s):
 import snakes_ladders
+import battleships
 #import minesweeper
+
 import bg
+
 
 pygame.init()
 
@@ -185,6 +189,13 @@ while prog_running:
         if pygame.Rect(int(32*win_width/64),int(32*win_height/64),int(32*win_width/64),int(32*win_height/64)).collidepoint(mouse_pos[0],mouse_pos[1]):
             pygame.draw.rect(window,white,pygame.Rect(int(31*win_width/64),int(31*win_height/64),int(33*win_width/64),int(33*win_height/64)),0)
             text_box('lucidacalligraphy',int(4.5*win_height/64),"BattleShip",0,0,0,int(40*win_width/64),int(37*win_height/64))
+
+        if mouse_press[0] == 1 and wait >= 15:
+            __name__ = '__bs__' 
+            battleships.Battleships(window)
+            count = 0
+            wait = 0
+
 
             
         #memory
