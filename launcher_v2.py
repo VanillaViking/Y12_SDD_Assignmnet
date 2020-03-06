@@ -14,8 +14,8 @@ pygame.init()
 
 white = [255,255,255]                   
 black = [0,0,0]
-window = pygame.display.set_mode((0,0), pygame.FULLSCREEN)                                  #full screen display
-#window = pygame.display.set_mode((1280, 720))                                  #full screen display
+#window = pygame.display.set_mode((0,0), pygame.FULLSCREEN)                                  #full screen display
+window = pygame.display.set_mode((1280, 720))                                  #full screen display
 pygame.display.set_caption("BARS launcher")                                                 #setting the name at the title bar
 window.fill(white)                                                                          #white background
 
